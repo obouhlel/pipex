@@ -1,0 +1,10 @@
+#folder
+.vscode
+objs
+libs
+
+#files
+*.o
+*.d
+*.a
+pipex
