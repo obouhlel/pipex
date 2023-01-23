@@ -1,50 +1,88 @@
-SRCS	=  libft/char/ft_isalnum.c libft/char/ft_isalpha.c libft/char/ft_isascii.c libft/char/ft_isdigit.c \
-		libft/char/ft_isprint.c libft/char/ft_tolower.c libft/char/ft_toupper.c \
-		libft/conversion/ft_atoi.c libft/conversion/ft_atoi_long.c libft/conversion/ft_itoa.c \
-		libft/list/ft_lstadd_back.c libft/list/ft_lstadd_front.c libft/list/ft_lstclear.c libft/list/ft_lstdelone.c \
-		libft/list/ft_lstiter.c libft/list/ft_lstlast.c libft/list/ft_lstmap.c libft/list/ft_lstnew.c libft/list/ft_lstsize.c \
-		libft/list/ft_lstdelone_relink.c libft/list/ft_lstprint_num.c \
-		libft/malloc/ft_calloc.c libft/malloc/ft_split.c libft/malloc/ft_strdup.c libft/malloc/ft_strjoin.c libft/malloc/ft_strmapi.c \
-		libft/malloc/ft_strtrim.c libft/malloc/ft_substr.c libft/mem/ft_bzero.c libft/mem/ft_memchr.c libft/mem/ft_memcmp.c \
-		libft/mem/ft_memcpy.c libft/mem/ft_memmove.c libft/mem/ft_memset.c \
-		libft/print/ft_putchar_fd.c libft/print/ft_putendl_fd.c libft/print/ft_putnbr_fd.c libft/print/ft_putstr_fd.c \
-		libft/string/ft_strchr.c libft/string/ft_striteri.c libft/string/ft_strlcat.c libft/string/ft_strlcpy.c \
-		libft/string/ft_strlen.c libft/string/ft_strncmp.c libft/string/ft_strnstr.c libft/string/ft_strrchr.c
+#COLOR
 
-SRCS	+= main_pipex.c
+GREEN		:= "\e[1;32m"
 
-OBJS	= ${SRCS:.c=.o}
+RED			:= "\e[1;31m"
 
-DEPS	= ${SRCS:.c=.d}
+OFF			:= "\e[0m"
 
-NAME	= pipex
+#VARIABLES
 
-LIB		= libpipex.a
+NAME		:= pipex
 
-CC		= gcc
+SRCS_DIR	:= srcs/srcs_pipex/
 
-CFLAGS	= -Wall -Wextra -Werror -g3
+SRCS		:= main.c
 
-all		: ${NAME}
+SRCS		:= ${addprefix ${SRCS_DIR},${SRCS}}
 
-${NAME}	: ${DEPS} ${OBJS}
-		ar rcs ${LIB} ${OBJS}
-		${CC} ${CFLAGS} ${LIB} -o ${NAME}
+OBJS_DIR	:= objs/
 
-clean	:
-		rm -f ${DEPS} ${OBJS} ${LIB}
+OBJS		:= $(SRCS:.c=.o)
 
-fclean	: clean
-		rm -f ${NAME}
+OBJS		:= $(addprefix $(OBJS_DIR),$(OBJS))
 
-re		: fclean all
+DEPS		:= ${OBJS:.o=.d}
 
-.PHONY	: all clean fclean re
+LIB_DIR		:= libs/
 
-%.o		: %.c
-		${CC} ${CFLAGS} -c $< -o $@
+LIBFT_DIR	:= srcs/libft/
 
-%.d		: %.c
-		${CC} ${CFLAGS} -MM $< -o $@
+LIBFT		:= libft.a
+
+MAKE_LIBFT	:= ${addprefix ${LIBFT_DIR},${LIBFT}}
+
+LIB_LIBFT	:= ${addprefix ${LIB_DIR},${LIBFT}}
+
+PIPEX		:= pipex.a
+
+LIB_PIPEX	:= ${addprefix ${LIB_DIR},${PIPEX}}
+
+LIB			:= ${LIB_LIBFT} ${LIB_PIPEX}
+
+AR			:= ar rcs
+
+CC			:= gcc
+
+CFLAGS		:= -Wall -Wextra -Werror -MMD -g3
+
+RM			:= rm -rf
+
+MV			:= mv -f
+
+MKDIR		:= mkdir -p
+
+#RULES
+
+all			: ${NAME}
+
+${NAME}		: ${OBJS}
+			@${MKDIR} ${LIB_DIR}
+			@make -C ${LIBFT_DIR}
+			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
+			@${AR} ${LIB_PIPEX} ${OBJS}
+			@echo ${PIPEX} ${GREEN}"done"${OFF}
+			@${CC} ${LIB_PIPEX} -o ${NAME}
+			@echo ${NAME} ${GREEN}"done"${OFF}
+
+clean		:
+			@make clean -C ${LIBFT_DIR}
+			@${RM} ${OBJS_DIR} ${LIB_DIR}
+			@echo "All objects and library "${RED}"delete"${OFF}
+
+fclean		: clean
+			@${RM} ${NAME}
+			@echo ${NAME} ${RED}"delete"${OFF}
+
+re			: fclean all
+
+.PHONY		: all clean fclean re norme
+
+#RECETTE
 
 -include $(DEPS)
+
+$(OBJS_DIR)%.o	: %.c
+				@${MKDIR} $(@D)
+	        	@${CC} ${CFLAGS} -c $< -o $@
+				@echo "$@ "${GREEN}"done"${OFF}
