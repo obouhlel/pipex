@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/24 00:30:59 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:19:55 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <string.h>
-//for test
-# include <stdio.h>
 
-typedef struct s_pipex
-{
-	char	*cmd;
-	char	*name_file;
-}	t_pipex;
-
+void	ft_error_msg(void);
+void	ft_free_strs(char **strs);
+void	ft_exec_cmd1(int file_out, int fd[2], char **av);
+void	ft_exec_cmd2(int file_out, int fd[2], char **av);
+int		ft_check_file(char **av);
 
 #endif
