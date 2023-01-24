@@ -1,10 +1,11 @@
 #COLOR
 
-GREEN		:= "\e[1;32m"
-
-RED			:= "\e[1;31m"
-
-OFF			:= "\e[0m"
+RED			:= '\033[0;31m'
+GREEN		:= '\033[0;32m'
+YELLOW		:= '\033[0;33m'
+CYAN		:= '\033[0;36m'
+PURPLE		:= '\033[0;35m'
+OFF			:= '\033[0m'
 
 #VARIABLES
 
@@ -76,7 +77,10 @@ fclean		: clean
 
 re			: fclean all
 
-.PHONY		: all clean fclean re
+test		: re
+			@sh test.sh
+
+.PHONY		: all clean fclean re test
 
 #RECETTE
 
