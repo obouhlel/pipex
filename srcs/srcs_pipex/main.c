@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/24 12:29:59 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:53:33 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_error_msg(void)
 
 void	ft_free_strs(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs[i])
@@ -30,8 +30,7 @@ void	ft_free_strs(char **strs)
 
 int	main(int ac, char **av)
 {
-	int		id1;
-	int		id2;
+	int		id[2];
 	char	*cmd;
 	char	**argv;
 	int		fd[2];
@@ -48,11 +47,11 @@ int	main(int ac, char **av)
 	if (pipe(fd) == -1)
 		return (ft_error_msg());
 	// Create two processus
-	id1 = fork();
-	if (id1 == -1)
+	id[0] = fork();
+	if (id[0] == -1)
 		return (ft_error_msg());
 	// The Children do
-	if (id1 == 0)
+	if (id[0] == 0)
 	{
 		// Duplicate the fd of file and close, to send the execution
 		close(file_out);
@@ -77,11 +76,11 @@ int	main(int ac, char **av)
 	}
 	else
 		wait(NULL);
-	id2 = fork();
-	if (id2 == -1)
+	id[1] = fork();
+	if (id[1] == -1)
 		return (ft_error_msg());
 	// The Children do
-	if (id2 == 0)
+	if (id[1] == 0)
 	{
 		// Duplicate the fd of file and close, to send the execution
 		close(fd[1]);
