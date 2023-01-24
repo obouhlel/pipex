@@ -38,7 +38,7 @@ PIPEX		:= pipex.a
 
 LIB_PIPEX	:= ${addprefix ${LIB_DIR},${PIPEX}}
 
-LIB			:= ${LIB_LIBFT} ${LIB_PIPEX}
+LIBS		:= ${LIB_PIPEX} ${LIB_LIBFT}
 
 AR			:= ar rcs
 
@@ -62,7 +62,7 @@ ${NAME}		: ${OBJS}
 			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
 			@${AR} ${LIB_PIPEX} ${OBJS}
 			@echo ${PIPEX} ${GREEN}"done"${OFF}
-			@${CC} ${LIB_PIPEX} -o ${NAME}
+			@${CC} ${CFLAGS} ${LIBS} -o ${NAME}
 			@echo ${NAME} ${GREEN}"done"${OFF}
 
 clean		:
@@ -76,7 +76,7 @@ fclean		: clean
 
 re			: fclean all
 
-.PHONY		: all clean fclean re norme
+.PHONY		: all clean fclean re
 
 #RECETTE
 
