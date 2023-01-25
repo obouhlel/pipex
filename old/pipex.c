@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:03:34 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/24 16:03:40 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/25 11:48:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,37 @@ void	ft_free_strs(char **strs)
 	free(strs);
 }
 
+int	ft_check_file(char **av)
+{
+	char *const	argv[] = {"touch", av[4], NULL};
+	int			file_out;
+	int			id;
+
+	file_out = -1;
+	if (open(av[1], O_RDONLY) == -1)
+		return (ft_putendl_fd(strerror(errno), 2), file_out);
+	file_out = open(av[4], O_RDWR);
+	if (file_out == -1)
+	{
+		id = fork();
+		if (id == -1)
+			return (ft_putendl_fd(strerror(errno), 2), file_out);
+		if (id == 0)
+		{
+			execve("/usr/bin/touch", argv, NULL);
+			ft_putendl_fd(strerror(errno), 2);
+			exit(errno);
+		}
+		else
+			wait(NULL);
+	}
+	file_out = open(av[4], O_RDWR);
+	return (file_out);
+}
+
 int	main(int ac, char **av)
 {
-	int		id[2];
+	int		id[3];
 	char	*cmd;
 	char	**argv;
 	int		fd[2];
@@ -39,8 +67,9 @@ int	main(int ac, char **av)
 	// Check the number of argument
 	if (ac != 5)
 		return (EXIT_FAILURE);
-	//open file out
-	file_out = open(av[4], O_RDWR);
+	// Check the file if it's exist or not, if not exist
+	// I create the file
+	file_out = ft_check_file(av);
 	if (file_out == -1)
 		return (ft_error_msg());
 	// Create two pipe, fd[0] for read, fd[1] for write
@@ -72,7 +101,7 @@ int	main(int ac, char **av)
 			return (ft_free_strs(argv), free(cmd), ft_error_msg());
 		// Excecute the cmd
 		execve(cmd, argv, NULL);
-		ft_error_msg();
+		return (ft_error_msg());
 	}
 	else
 		wait(NULL);
@@ -103,7 +132,7 @@ int	main(int ac, char **av)
 			return (ft_free_strs(argv), free(cmd), ft_error_msg());
 		// Excecute the cmd
 		execve(cmd, argv, NULL);
-		ft_error_msg();
+		return (ft_error_msg());
 	}
 	return (EXIT_SUCCESS);
 }
