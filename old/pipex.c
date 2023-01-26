@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:03:34 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/25 11:48:56 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:27:09 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_check_file(char **av)
 
 int	main(int ac, char **av)
 {
-	int		id[3];
+	int		id[2];
 	char	*cmd;
 	char	**argv;
 	int		fd[2];

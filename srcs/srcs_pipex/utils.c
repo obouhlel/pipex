@@ -1,82 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 10:12:58 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:52:27 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-void	ft_error_msg(void)
+void	ft_error_msg_exit(void)
 {
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	exit(errno);
 }
 
-void	ft_free_strs(char **strs)
+int	ft_error_msg(void)
+{
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	return (errno);
+}
+
+void	ft_free_id_fd(int *id, int **fd, int n)
+{
+	if (id)
+		free(id);
+	ft_close_all(fd, n);
+	if (fd[0])
+		free(fd[0]);
+	if (fd[1])
+		free(fd[1]);
+}
+
+void	ft_free_all(t_list *list)
 {
 	int	i;
 
+	ft_free_id_fd(list->id, list->fd, list->n);
 	i = 0;
-	while (strs[i])
-		free(strs[i++]);
-	free(strs);
+	if (list->strs)
+	{
+		while (list->strs[i])
+			free(list->strs[i++]);
+		free(list->strs);
+	}
 }
 
-void	ft_exec_cmd1(int file_out, int fd[2], char **av)
+void	ft_close_all(int **fd, int n)
 {
-	char	**argv;
-	char	*cmd;
+	int	i;
+	int	j;
 
-	close(file_out);
-	close(fd[0]);
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		return (ft_error_msg());
-	close(fd[1]);
-	argv = ft_split(av[2], ' ');
-	if (!argv)
-		return (ft_error_msg());
-	cmd = ft_strjoin("/usr/bin/", argv[0]);
-	if (!cmd)
-		return (ft_free_strs(argv));
-	if (access(cmd, R_OK) == -1)
-		return (ft_free_strs(argv), free(cmd), ft_error_msg());
-	execve(cmd, argv, NULL);
-	ft_error_msg();
-}
-
-void	ft_exec_cmd2(int file_out, int fd[2], char **av)
-{
-	char	**argv;
-	char	*cmd;
-
-	close(fd[1]);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		return (ft_error_msg());
-	if (dup2(file_out, STDOUT_FILENO) == -1)
-		return (ft_error_msg());
-	close(fd[0]);
-	close(file_out);
-	argv = ft_split(av[3], ' ');
-	if (!argv)
-		return (ft_error_msg());
-	cmd = ft_strjoin("/usr/bin/", argv[0]);
-	if (!cmd)
-		return (ft_free_strs(argv));
-	if (access(cmd, R_OK) == -1)
-		return (ft_free_strs(argv), free(cmd), ft_error_msg());
-	execve(cmd, argv, NULL);
-	ft_error_msg();
+	i = 0;
+	while (i < n)
+	{
+		if (fd[i])
+		{
+			j = 0;
+			while (j < 2)
+				close(fd[i][j++]);
+		}
+		i++;
+	}
 }
 
 int	ft_check_file(char **av, int ac)
 {
-	char *const	argv[] = {"touch", av[4], NULL};
+	char *const	argv[] = {"touch", av[ac - 1], NULL};
 	int			file_out;
 	int			id;
 
