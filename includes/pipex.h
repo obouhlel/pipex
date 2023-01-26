@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 20:56:22 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 21:09:51 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_error_msg_exit(void);
 int		ft_check_file(char **av, int ac);
 void	ft_free_close_all_fd(int **fd, int n);
 
-int		ft_exec_first(char *arg, int fd_write);
+int		ft_exec_first(char *arg, int *fd);
 int		ft_exec_last(char *arg, int *fd, int file_out);
 int		ft_exec(char *arg, int *fd_read, int *fd_write);
 

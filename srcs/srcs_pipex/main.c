@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 21:02:26 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 21:09:36 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av)
 	{
 		if (i == 0)
 		{
-			if (ft_exec_first(av[i + 2], fd[i][WRITE]) != 0)
+			if (ft_exec_first(av[i + 2], fd[i]) != 0)
 				return (ft_free_close_all_fd(fd, n), errno);
 		}
 		else if (i == n)

@@ -6,14 +6,14 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 20:55:55 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 21:14:42 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 #include <stdio.h>
 
-int	ft_exec_first(char *arg, int fd_write)
+int	ft_exec_first(char *arg, int *fd)
 {
 	int		id;
 	char	**args;
@@ -24,9 +24,10 @@ int	ft_exec_first(char *arg, int fd_write)
 		return (ft_error_msg());
 	if (id == 0)
 	{
-		if (dup2(fd_write, STDOUT_FILENO) == -1)
+		close(fd[READ]);
+		if (dup2(fd[WRITE], STDOUT_FILENO) == -1)
 			ft_error_msg_exit();
-		close(fd_write);
+		close(fd[WRITE]);
 		args = ft_split(arg, ' ');
 		if (!args)
 			exit(EXIT_FAILURE);
