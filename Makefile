@@ -74,6 +74,7 @@ clean		:
 fclean		: clean
 			@${RM} ${NAME}
 			@echo ${NAME} ${RED}"delete"${OFF}
+			${RM} infile outfile
 
 re			: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 20:26:17 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 21:02:26 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ int	main(int ac, char **av)
 	//Check Args
 	if (ac < 5)
 		return (ft_putendl_fd(ERROR_AC, STDERR_FILENO), EXIT_FAILURE);
-	//Print args
-	i = 0;
-	while (i < ac)
-	{
-		printf("av[%d] = %s\n", i, av[i]);
-		i++;
-	}
 	//Check infile, and outfile
 	file_out = ft_check_file(av, ac);
 	if (file_out == -1)
@@ -60,12 +53,12 @@ int	main(int ac, char **av)
 		}
 		else if (i == n)
 		{
-			if (ft_exec(av[ac - 2], fd[0][READ], file_out) != 0)
+			if (ft_exec_last(av[i + 2], fd[i - 1], file_out) != 0)
 				return (ft_free_close_all_fd(fd, n), errno);
 		}
 		else
 		{
-			if (ft_exec(av[i + 2], fd[i - 1][READ], fd[i][WRITE]) != 0)
+			if (ft_exec(av[i + 2], fd[i - 1], fd[i]) != 0)
 				return (ft_free_close_all_fd(fd, n), errno);
 		}
 		i++;
