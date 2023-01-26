@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 13:55:00 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:42:05 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@
 Example : ./pipex infile \"ls -l\" \"wc -l\" outfile."
 # define ERROR_MALLOC "\033[0;31mMalloc fail\033[0m"
 
-//list list
-typedef struct s_list
-{
-	int		n;
-	char	*cmd;
-	int		*id;
-	int		**fd;
-	char	**strs;
-}	t_list;
-
 //for index of pipe fd
 enum	e_fd_pipe
 {
@@ -49,13 +39,9 @@ enum	e_fd_pipe
 
 int		ft_error_msg(void);
 void	ft_error_msg_exit(void);
-void	ft_free_id_fd(int *id, int **fd, int n);
-void	ft_free_all(t_list *list);
-//void	ft_close_all(int **fd, int n);
 int		ft_check_file(char **av, int ac);
+void	ft_free_close_all_fd(int **fd, int n);
 
-void	ft_exec_first(t_list *list, int id, int fd_write);
-void	ft_exec_last(t_list *list, int id, int fd_read, int file_out);
-void	ft_exec(t_list *list, int id, int fd_read, int fd_write);
-
+int		ft_exec_first(char *arg, int fd_write);
+int		ft_exec(char *arg, int fd_read, int fd_write);
 #endif

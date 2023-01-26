@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 11:51:30 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 19:55:54 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,52 @@
 
 int	main(int ac, char **av)
 {
-	t_list	*list;
-	int		*id;
 	int		**fd;
+	int		n;
 	int		file_out;
 	int		i;
 
+	//Check Args
 	if (ac < 5)
 		return (ft_putendl_fd(ERROR_AC, STDERR_FILENO), EXIT_FAILURE);
-	list = malloc(sizeof(t_list));
-	if (!list)
-		return (ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), EXIT_FAILURE);
-	list->n = ac;
+	//Check infile, and outfile
 	file_out = ft_check_file(av, ac);
 	if (file_out == -1)
 		return (errno);
-	id = ft_calloc(ac, sizeof(int));
-	if (!id)
-		return (ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), EXIT_FAILURE);
-	list->id = id;
-	i = 0;
-	fd = malloc(2 * sizeof(int));
+	//Create and open all fd (0 for read, 1 for write)
+	n = ac - 2;
+	fd = (int **)malloc(sizeof(int *) * n);
 	if (!fd)
-		return (ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), EXIT_FAILURE);
-	while (i < 2)
+		return (EXIT_FAILURE);
+	i = 0;
+	while (i <= n)
 	{
-		fd[i] = ft_calloc((ac - 1), sizeof(int));
+		fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!fd[i])
-			return (ft_free_id_fd(id, fd, ac), \
-			ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), EXIT_FAILURE);
-		i++;
-	}
-	list->fd = fd;
-	i = 0;
-	while (i < ac)
-	{
+			return (ft_free_close_all_fd(fd, n), EXIT_FAILURE);
 		if (pipe(fd[i]) == -1)
-			return (ft_free_id_fd(id, fd, ac), ft_error_msg(), errno);
+			return (ft_free_close_all_fd(fd, n), ft_error_msg());
 		i++;
 	}
+	//Exec cmds
 	i = 0;
-	while (i < ac)
+	while (i <= n)
 	{
-		list->cmd = av[i + 1];
 		if (i == 0)
-			ft_exec_first(list, id[i], fd[i][WRITE]);
-		else if (i == ac - 1)
-			ft_exec_last(list, id[i], fd[i - 1][READ], file_out);
+		{
+			if (ft_exec_first(av[i + 2], fd[i][WRITE]) != 0)
+				return (ft_free_close_all_fd(fd, n), errno);
+		}
+		else if (i == n)
+		{
+			if (ft_exec(av[i + 2], fd[i - 1][READ], file_out) != 0)
+				return (ft_free_close_all_fd(fd, n), errno);
+		}
 		else
-			ft_exec(list, id[i], fd[i - 1][READ], fd[i][WRITE]);
+		{
+			if (ft_exec(av[i + 2], fd[i - 1][READ], fd[i][WRITE]) != 0)
+				return (ft_free_close_all_fd(fd, n), errno);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);
