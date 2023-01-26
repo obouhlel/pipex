@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/24 15:18:51 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:12:58 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error_msg(void)
 {
-	ft_putendl_fd(strerror(errno), 2);
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	exit(errno);
 }
 
@@ -74,7 +74,7 @@ void	ft_exec_cmd2(int file_out, int fd[2], char **av)
 	ft_error_msg();
 }
 
-int	ft_check_file(char **av)
+int	ft_check_file(char **av, int ac)
 {
 	char *const	argv[] = {"touch", av[4], NULL};
 	int			file_out;
@@ -83,7 +83,7 @@ int	ft_check_file(char **av)
 	file_out = -1;
 	if (open(av[1], O_RDONLY) == -1)
 		return (ft_putendl_fd(strerror(errno), 2), file_out);
-	file_out = open(av[4], O_RDWR);
+	file_out = open(av[ac - 1], O_RDWR);
 	if (file_out == -1)
 	{
 		id = fork();
@@ -98,6 +98,6 @@ int	ft_check_file(char **av)
 		else
 			wait(NULL);
 	}
-	file_out = open(av[4], O_RDWR);
+	file_out = open(av[ac - 1], O_RDWR);
 	return (file_out);
 }

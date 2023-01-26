@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/24 15:18:23 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:11:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	main(int ac, char **av)
 	int		fd[2];
 	int		file_out;
 
-	if (ac != 5)
-		return (EXIT_FAILURE);
-	file_out = ft_check_file(av);
+	if (ac < 5)
+		return (ft_putendl_fd(ERROR_AC, STDOUT_FILENO), EXIT_FAILURE);
+	file_out = ft_check_file(av, ac);
 	if (file_out == -1)
 		return (errno);
 	if (pipe(fd) == -1)
