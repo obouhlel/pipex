@@ -7,4 +7,6 @@ libs
 *.o
 *.d
 *.a
+infile
+outfile
 pipex
