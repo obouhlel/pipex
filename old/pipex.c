@@ -6,11 +6,19 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:03:34 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 10:27:09 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 20:34:49 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../includes/libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 int	ft_error_msg(void)
 {

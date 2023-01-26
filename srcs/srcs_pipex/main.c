@@ -6,11 +6,12 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 19:55:54 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 20:26:17 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
+#include <stdio.h>
 
 int	main(int ac, char **av)
 {
@@ -22,17 +23,24 @@ int	main(int ac, char **av)
 	//Check Args
 	if (ac < 5)
 		return (ft_putendl_fd(ERROR_AC, STDERR_FILENO), EXIT_FAILURE);
+	//Print args
+	i = 0;
+	while (i < ac)
+	{
+		printf("av[%d] = %s\n", i, av[i]);
+		i++;
+	}
 	//Check infile, and outfile
 	file_out = ft_check_file(av, ac);
 	if (file_out == -1)
 		return (errno);
 	//Create and open all fd (0 for read, 1 for write)
-	n = ac - 2;
+	n = ac - 4;
 	fd = (int **)malloc(sizeof(int *) * n);
 	if (!fd)
 		return (EXIT_FAILURE);
 	i = 0;
-	while (i <= n)
+	while (i < n)
 	{
 		fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!fd[i])
@@ -52,7 +60,7 @@ int	main(int ac, char **av)
 		}
 		else if (i == n)
 		{
-			if (ft_exec(av[i + 2], fd[i - 1][READ], file_out) != 0)
+			if (ft_exec(av[ac - 2], fd[0][READ], file_out) != 0)
 				return (ft_free_close_all_fd(fd, n), errno);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 20:00:41 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 20:29:08 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,5 @@ int	ft_exec(char *arg, int fd_read, int fd_write)
 		execve(cmd, args, NULL);
 		ft_error_msg_exit();
 	}
-	else
-		wait(NULL);
 	return (EXIT_SUCCESS);
 }
