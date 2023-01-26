@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 11:53:04 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 13:49:15 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_exec_first(t_list *list, int id, int fd_write)
 	char	**argv;
 	char	*cmd;
 
-	list->strs = argv;
 	id = fork();
 	if (id == -1)
 	{
@@ -40,6 +39,7 @@ void	ft_exec_first(t_list *list, int id, int fd_write)
 			ft_free_all(list);
 			ft_error_msg_exit();
 		}
+		list->strs = argv;
 		cmd = ft_strjoin("/usr/bin/", argv[0]);
 		if (!cmd)
 		{
@@ -61,7 +61,6 @@ void	ft_exec_last(t_list *list, int id, int fd_read, int file_out)
 	char	**argv;
 	char	*cmd;
 
-	list->strs = argv;
 	id = fork();
 	if (id == -1)
 	{
@@ -94,6 +93,7 @@ void	ft_exec_last(t_list *list, int id, int fd_read, int file_out)
 			ft_free_all(list);
 			ft_error_msg_exit();
 		}
+		list->strs = argv;
 		cmd = ft_strjoin("/usr/bin/", argv[0]);
 		if (!cmd)
 		{
@@ -110,12 +110,11 @@ void	ft_exec_last(t_list *list, int id, int fd_read, int file_out)
 	}
 }
 
-void	ft_exec(list, id, fd_read, fd_write)
+void	ft_exec(t_list *list, int id, int fd_read, int fd_write)
 {
 	char	**argv;
 	char	*cmd;
 
-	list->strs = argv;
 	id = fork();
 	if (id == -1)
 	{
@@ -148,6 +147,7 @@ void	ft_exec(list, id, fd_read, fd_write)
 			ft_free_all(list);
 			ft_error_msg_exit();
 		}
+		list->strs = argv;
 		cmd = ft_strjoin("/usr/bin/", argv[0]);
 		if (!cmd)
 		{

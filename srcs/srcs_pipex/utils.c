@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 11:52:27 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 13:55:22 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	ft_error_msg(void)
 
 void	ft_free_id_fd(int *id, int **fd, int n)
 {
+	(void)n;
 	if (id)
 		free(id);
-	ft_close_all(fd, n);
+	//ft_close_all(fd, n);
 	if (fd[0])
 		free(fd[0]);
 	if (fd[1])
@@ -49,23 +50,23 @@ void	ft_free_all(t_list *list)
 	}
 }
 
-void	ft_close_all(int **fd, int n)
-{
-	int	i;
-	int	j;
+// void	ft_close_all(int **fd, int n)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	while (i < n)
-	{
-		if (fd[i])
-		{
-			j = 0;
-			while (j < 2)
-				close(fd[i][j++]);
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < n)
+// 	{
+// 		if (fd[i])
+// 		{
+// 			j = 0;
+// 			while (j < 2)
+// 				close(fd[i][j++]);
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	ft_check_file(char **av, int ac)
 {

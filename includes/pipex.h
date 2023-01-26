@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 11:53:25 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/26 13:55:00 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_error_msg(void);
 void	ft_error_msg_exit(void);
 void	ft_free_id_fd(int *id, int **fd, int n);
 void	ft_free_all(t_list *list);
-void	ft_close_all(int **fd, int n);
+//void	ft_close_all(int **fd, int n);
 int		ft_check_file(char **av, int ac);
 
 void	ft_exec_first(t_list *list, int id, int fd_write);
