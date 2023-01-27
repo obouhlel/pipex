@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/27 12:39:14 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:00:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	ft_exec_first(char *arg, int *fd)
 			ft_error_msg_exit();
 		close(fd[WRITE]);
 		ft_execution(arg);
+		ft_error_msg_exit();
 	}
-	else
-		wait(NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -51,6 +50,7 @@ int	ft_exec_last(char *arg, int *fd, int file_out)
 		close(fd[WRITE]);
 		close(file_out);
 		ft_execution(arg);
+		ft_error_msg_exit();
 	}
 	return (EXIT_SUCCESS);
 }
@@ -73,6 +73,7 @@ int	ft_exec(char *arg, int *fd_read, int *fd_write)
 		close(fd_read[READ]);
 		close(fd_write[WRITE]);
 		ft_execution(arg);
+		ft_error_msg_exit();
 	}
 	return (EXIT_SUCCESS);
 }
@@ -91,5 +92,4 @@ static void	ft_execution(char *arg)
 	if (access(cmd, X_OK) == -1)
 		ft_error_msg_exit();
 	execve(cmd, args, NULL);
-	ft_error_msg_exit();
 }
