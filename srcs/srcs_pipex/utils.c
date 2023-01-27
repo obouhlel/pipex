@@ -6,14 +6,18 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/27 12:42:52 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:25:07 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-void	ft_error_msg_exit(void)
+void	ft_error_msg_exit(void *fd1, void *fd2)
 {
+	if (fd1)
+		free(fd1);
+	if (fd2)
+		free(fd2);
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	exit(errno);
 }
@@ -29,19 +33,22 @@ void	ft_free_close_all_fd(int **fd, const int n)
 	int	i;
 
 	i = 0;
-	while (i < n)
+	if (fd)
 	{
-		if (fd[i])
+		while (i < n)
 		{
-			if (fd[i][0])
-				close(fd[i][0]);
-			if (fd[i][1])
-				close(fd[i][1]);
-			free(fd[i]);
+			if (fd[i])
+			{
+				if (fd[i][0])
+					close(fd[i][0]);
+				if (fd[i][1])
+					close(fd[i][1]);
+				free(fd[i]);
+			}
+			i++;
 		}
-		i++;
+		free(fd);
 	}
-	free(fd);
 }
 
 int	ft_check_file(char **av, int ac)
