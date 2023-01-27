@@ -6,18 +6,17 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/26 21:14:42 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/27 12:39:14 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-#include <stdio.h>
+
+static void	ft_execution(char *arg);
 
 int	ft_exec_first(char *arg, int *fd)
 {
 	int		id;
-	char	**args;
-	char	*cmd;
 
 	id = fork();
 	if (id == -1)
@@ -28,16 +27,7 @@ int	ft_exec_first(char *arg, int *fd)
 		if (dup2(fd[WRITE], STDOUT_FILENO) == -1)
 			ft_error_msg_exit();
 		close(fd[WRITE]);
-		args = ft_split(arg, ' ');
-		if (!args)
-			exit(EXIT_FAILURE);
-		cmd = ft_strjoin("/usr/bin/", args[0]);
-		if (!cmd)
-			exit(EXIT_FAILURE);
-		if (access(cmd, X_OK) == -1)
-			ft_error_msg_exit();
-		execve(cmd, args, NULL);
-		ft_error_msg_exit();
+		ft_execution(arg);
 	}
 	else
 		wait(NULL);
@@ -47,8 +37,6 @@ int	ft_exec_first(char *arg, int *fd)
 int	ft_exec_last(char *arg, int *fd, int file_out)
 {
 	int		id;
-	char	**args;
-	char	*cmd;
 
 	id = fork();
 	if (id == -1)
@@ -62,16 +50,7 @@ int	ft_exec_last(char *arg, int *fd, int file_out)
 			ft_error_msg_exit();
 		close(fd[WRITE]);
 		close(file_out);
-		args = ft_split(arg, ' ');
-		if (!args)
-			exit(EXIT_FAILURE);
-		cmd = ft_strjoin("/usr/bin/", args[0]);
-		if (!cmd)
-			exit(EXIT_FAILURE);
-		if (access(cmd, X_OK) == -1)
-			ft_error_msg_exit();
-		execve(cmd, args, NULL);
-		ft_error_msg_exit();
+		ft_execution(arg);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -79,8 +58,6 @@ int	ft_exec_last(char *arg, int *fd, int file_out)
 int	ft_exec(char *arg, int *fd_read, int *fd_write)
 {
 	int		id;
-	char	**args;
-	char	*cmd;
 
 	id = fork();
 	if (id == -1)
@@ -95,16 +72,24 @@ int	ft_exec(char *arg, int *fd_read, int *fd_write)
 			ft_error_msg_exit();
 		close(fd_read[READ]);
 		close(fd_write[WRITE]);
-		args = ft_split(arg, ' ');
-		if (!args)
-			exit(EXIT_FAILURE);
-		cmd = ft_strjoin("/usr/bin/", args[0]);
-		if (!cmd)
-			exit(EXIT_FAILURE);
-		if (access(cmd, X_OK) == -1)
-			ft_error_msg_exit();
-		execve(cmd, args, NULL);
-		ft_error_msg_exit();
+		ft_execution(arg);
 	}
 	return (EXIT_SUCCESS);
+}
+
+static void	ft_execution(char *arg)
+{
+	char	**args;
+	char	*cmd;
+
+	args = ft_split(arg, ' ');
+	if (!args)
+		exit(EXIT_FAILURE);
+	cmd = ft_strjoin("/usr/bin/", args[0]);
+	if (!cmd)
+		exit(EXIT_FAILURE);
+	if (access(cmd, X_OK) == -1)
+		ft_error_msg_exit();
+	execve(cmd, args, NULL);
+	ft_error_msg_exit();
 }
