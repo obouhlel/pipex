@@ -6,12 +6,14 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:01:35 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:29:37 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# define SUCCESS (void *)1
 
 # include "libft.h"
 //open, close, read, write, list, free, perror, strerror, access, dup, dup2,
@@ -33,20 +35,29 @@ Example : ./pipex infile \"ls -l\" \"wc -l\" outfile."
 //for index of pipe fd
 enum	e_fd_pipe
 {
-	READ,
-	WRITE,
+	R,
+	W,
 };
 
+typedef struct s_vars
+{
+	int		n;
+	char	**cmds;
+	int		file_in;
+	int		file_out;
+	int		**fd;
+}	t_vars;
+
 int		ft_error_msg(void);
-void	ft_error_msg_exit(void *fd1, void *fd2);
-int		ft_check_file(int ac, char **av);
+void	ft_error_msg_exit(void);
+int		ft_check_file_out(int ac, char **av);
 void	ft_free_close_all_fd(int **fd, const int n);
 
 t_vars	*ft_init_vars(int ac, char **av);
 void	ft_free_vars(t_vars *vars);
 
-int		ft_exec_first(char *arg, int file_in, int *fd);
-int		ft_exec_last(char *arg, int *fd, int file_out);
-int		ft_exec(char *arg, int *fd_read, int *fd_write);
+int		ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd);
+int		ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out);
+int		ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write);
 
 #endif

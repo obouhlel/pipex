@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 12:59:57 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:39:30 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ t_vars	*ft_init_vars(int ac, char **av)
 	while (i <= vars->n)
 	{
 		vars->cmds[i] = av[2 + i];
-		//need to delete
-		ft_putendl_fd(vars->cmds[i], STDOUT_FILENO);
 		i++;
 	}
 	vars->cmds[i] = NULL;
@@ -72,13 +70,6 @@ static void	*ft_init_vars_pipe(t_vars *vars)
 		if (pipe(fd[i]) == -1)
 			return (ft_free_close_all_fd(fd, vars->n), \
 					ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
-		i++;
-	}
-	//print fd
-	i = 0;
-	while (i < vars->n)
-	{
-		printf("fd[%d][0] = %d\nfd[%d][1] = %d\n", i, fd[i][0], i, fd[i][1]);
 		i++;
 	}
 	vars->fd = fd;

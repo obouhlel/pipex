@@ -6,18 +6,14 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:01:01 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:29:29 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-void	ft_error_msg_exit(void *fd1, void *fd2)
+void	ft_error_msg_exit(void)
 {
-	if (fd1)
-		free(fd1);
-	if (fd2)
-		free(fd2);
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	exit(errno);
 }
@@ -51,15 +47,12 @@ void	ft_free_close_all_fd(int **fd, const int n)
 	}
 }
 
-int	ft_check_file(int ac, char **av)
+int	ft_check_file_out(int ac, char **av)
 {
 	char *const	argv[] = {"touch", av[ac - 1], NULL};
 	int			file_out;
 	int			id;
 
-	file_out = -1;
-	if (open(av[1], O_RDONLY) == -1)
-		return (ft_putendl_fd(strerror(errno), 2), file_out);
 	file_out = open(av[ac - 1], O_RDWR);
 	if (file_out == -1)
 	{
@@ -75,6 +68,8 @@ int	ft_check_file(int ac, char **av)
 		else
 			wait(NULL);
 	}
+	if (errno)
+		return (-1);
 	file_out = open(av[ac - 1], O_RDWR);
 	return (file_out);
 }
