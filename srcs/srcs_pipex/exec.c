@@ -6,12 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:37:03 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:43:39 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-#include <stdio.h>
 
 static void	ft_execution(char *arg);
 static void	ft_error_exec(char **args, char *cmd);

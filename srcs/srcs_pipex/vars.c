@@ -6,12 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:39:30 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:43:47 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-#include <stdio.h>
 
 static void	*ft_init_vars_file(int ac, char **av, t_vars *vars);
 static void	*ft_init_vars_pipe(t_vars *vars);
