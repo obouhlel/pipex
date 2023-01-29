@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/27 15:25:07 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:01:01 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_free_close_all_fd(int **fd, const int n)
 	}
 }
 
-int	ft_check_file(char **av, int ac)
+int	ft_check_file(int ac, char **av)
 {
 	char *const	argv[] = {"touch", av[ac - 1], NULL};
 	int			file_out;

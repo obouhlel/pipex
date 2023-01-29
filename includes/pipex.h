@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/27 15:35:04 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:01:35 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ enum	e_fd_pipe
 
 int		ft_error_msg(void);
 void	ft_error_msg_exit(void *fd1, void *fd2);
-int		ft_check_file(char **av, int ac);
+int		ft_check_file(int ac, char **av);
 void	ft_free_close_all_fd(int **fd, const int n);
+
+t_vars	*ft_init_vars(int ac, char **av);
+void	ft_free_vars(t_vars *vars);
 
 int		ft_exec_first(char *arg, int file_in, int *fd);
 int		ft_exec_last(char *arg, int *fd, int file_out);
