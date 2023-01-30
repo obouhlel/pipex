@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/30 10:47:59 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:39:59 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,40 @@ int	ft_check_file_out(int ac, char **av)
 	int			file_out;
 	int			id;
 
-	file_out = open(av[ac - 1], O_WRONLY);
-	if (file_out == -1)
+	file_out = 0;
+	id = fork();
+	if (id == -1)
+		return (ft_putendl_fd(strerror(errno), STDERR_FILENO), errno);
+	if (id == 0)
 	{
-		id = fork();
-		if (id == -1)
-			return (ft_putendl_fd(strerror(errno), 2), file_out);
-		if (id == 0)
-		{
-			execve("/usr/bin/touch", argv, NULL);
-			ft_putendl_fd(strerror(errno), 2);
-			exit(errno);
-		}
-		else
-			wait(NULL);
+		execve("/usr/bin/touch", argv, NULL);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		exit(errno);
 	}
-	if (errno)
-		return (-1);
+	else
+		wait(NULL);
 	file_out = open(av[ac - 1], O_WRONLY);
+	return (file_out);
+}
+
+int	ft_check_file_out_hd(int ac, char **av)
+{
+	char *const	argv[] = {"touch", av[ac - 1], NULL};
+	int			file_out;
+	int			id;
+
+	file_out = 0;
+	id = fork();
+	if (id == -1)
+		return (ft_putendl_fd(strerror(errno), STDERR_FILENO), errno);
+	if (id == 0)
+	{
+		execve("/usr/bin/touch", argv, NULL);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		exit(errno);
+	}
+	else
+		wait(NULL);
+	file_out = open(av[ac - 1], O_WRONLY, O_APPEND);
 	return (file_out);
 }

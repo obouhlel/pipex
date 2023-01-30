@@ -6,14 +6,13 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:43:39 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:45:19 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
 static void	ft_execution(char *arg);
-static void	ft_error_exec(char **args, char *cmd);
 
 int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
 {
@@ -104,7 +103,7 @@ static void	ft_execution(char *arg)
 	ft_error_exec(args, cmd);
 }
 
-static void	ft_error_exec(char **args, char *cmd)
+void	ft_error_exec(char **args, char *cmd)
 {
 	int	i;
 

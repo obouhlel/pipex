@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/30 08:38:03 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/30 12:18:37 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_vars
 {
 	int		here_doc;
 	int		n;
+	char	*limiter;
 	char	**cmds;
 	int		file_in;
 	int		file_out;
@@ -52,6 +53,7 @@ typedef struct s_vars
 int		ft_error_msg(void);
 void	ft_error_msg_exit(void);
 int		ft_check_file_out(int ac, char **av);
+int		ft_check_file_out_hd(int ac, char **av);
 void	ft_free_close_all_fd(int **fd, const int n);
 
 t_vars	*ft_init_vars(int ac, char **av);
@@ -60,5 +62,6 @@ void	ft_free_vars(t_vars *vars);
 int		ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd);
 int		ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out);
 int		ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write);
+void	ft_error_exec(char **args, char *cmd);
 
 #endif
