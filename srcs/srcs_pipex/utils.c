@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:29:29 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/30 10:47:59 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_check_file_out(int ac, char **av)
 	int			file_out;
 	int			id;
 
-	file_out = open(av[ac - 1], O_RDWR);
+	file_out = open(av[ac - 1], O_WRONLY);
 	if (file_out == -1)
 	{
 		id = fork();
@@ -70,6 +70,6 @@ int	ft_check_file_out(int ac, char **av)
 	}
 	if (errno)
 		return (-1);
-	file_out = open(av[ac - 1], O_RDWR);
+	file_out = open(av[ac - 1], O_WRONLY);
 	return (file_out);
 }
