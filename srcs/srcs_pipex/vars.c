@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/29 13:43:47 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/30 08:50:10 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_vars	*ft_init_vars(int ac, char **av)
 	if (!vars)
 		return (NULL);
 	vars->n = ac - 4;
+	vars->here_doc = 0;
+	if (ft_strcmp(av[1], "here_doc") == 0)
+		vars->here_doc = 1;
 	vars->cmds = (char **)malloc(sizeof(char *) * (vars->n + 2));
 	if (!vars->cmds)
 		return (free(vars), NULL);
