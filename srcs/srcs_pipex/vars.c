@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/31 11:53:04 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/31 12:00:43 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 		vars->file_in = open(av[1], O_RDONLY);
 		if (vars->file_in == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR, 0666);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
@@ -83,7 +83,7 @@ static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 		if (!vars->limiter)
 			return (NULL);
 		vars->file_in = -1;
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0666);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
