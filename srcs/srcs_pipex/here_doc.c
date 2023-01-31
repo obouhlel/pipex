@@ -1,45 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/31 11:44:32 by obouhlel         ###   ########.fr       */
+/*   Created: 2023/01/31 09:23:24 by obouhlel          #+#    #+#             */
+/*   Updated: 2023/01/31 11:30:37 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-static int	main_exec(t_vars *vars);
+static int	main_exec_here_doc_bis(t_vars *vars);
 
-int	main(int ac, char **av)
+int	main_exec_here_doc(t_vars *vars)
 {
-	t_vars	*vars;
+	static char	*str = "Bonjour";
 
-	vars = NULL;
-	if (ac < 5)
-		return (ft_putendl_fd(ERROR_AC, STDERR_FILENO), EXIT_FAILURE);
-	vars = ft_init_vars(ac, av);
-	if (!vars)
-		return (EXIT_FAILURE);
-	if (vars->here_doc && ac < 6)
-		return (ft_putendl_fd(ERROR_ACHD, STDERR_FILENO), EXIT_FAILURE);
-	if (vars->here_doc == 0)
+	while (1)
 	{
-		if (main_exec(vars))
-			return (errno);
+		if (str)
+			ft_putstr_fd("pipe heredoc> ", STDERR_FILENO);
+		str = get_next_line(STDIN_FILENO);
+		if (str && strcmp(str, vars->limiter) == 0)
+		{
+			free(str);
+			close(vars->fd[0][1]);
+			break ;
+		}
+		ft_putstr_fd(str, vars->fd[0][1]);
+		free(str);
 	}
-	else
-	{
-		if (main_exec_here_doc(vars))
-			return (ft_free_vars(vars), errno);
-	}
+	if (main_exec_here_doc_bis(vars))
+		return (errno);
 	return (EXIT_SUCCESS);
 }
 
-static int	main_exec(t_vars *vars)
+static int	main_exec_here_doc_bis(t_vars *vars)
 {
 	int	i;
 
@@ -48,18 +46,18 @@ static int	main_exec(t_vars *vars)
 	{
 		if (i == 0)
 		{
-			if (ft_exec_first(vars, vars->cmds[i], vars->file_in, vars->fd[i]))
+			if (ft_exec_first(vars, vars->cmds[i], \
+				vars->fd[0][0], vars->fd[i + 1]))
 				return (ft_free_vars(vars), errno);
 		}
 		else if (i == vars->n)
 		{
-			if (ft_exec_last(vars, vars->cmds[i], \
-				vars->fd[i - 1], vars->file_out))
+			if (ft_exec_last(vars, vars->cmds[i], vars->fd[i], vars->file_out))
 				return (ft_free_vars(vars), errno);
 		}
 		else
 		{
-			if (ft_exec(vars, vars->cmds[i], vars->fd[i - 1], vars->fd[i]))
+			if (ft_exec(vars, vars->cmds[i], vars->fd[i], vars->fd[i + 1]))
 				return (ft_free_vars(vars), errno);
 		}
 		i++;
