@@ -13,7 +13,7 @@ NAME		:= pipex
 
 SRCS_DIR	:= srcs/srcs_pipex/
 
-SRCS		:= main.c utils.c exec.c vars.c here_doc.c
+SRCS		:= main.c vars.c exec.c here_doc.c error.c
 
 SRCS		:= ${addprefix ${SRCS_DIR},${SRCS}}
 

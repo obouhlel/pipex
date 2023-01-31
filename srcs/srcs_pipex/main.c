@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/31 09:47:45 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/31 11:44:32 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int ac, char **av)
 	vars = ft_init_vars(ac, av);
 	if (!vars)
 		return (EXIT_FAILURE);
+	if (vars->here_doc && ac < 6)
+		return (ft_putendl_fd(ERROR_ACHD, STDERR_FILENO), EXIT_FAILURE);
 	if (vars->here_doc == 0)
 	{
 		if (main_exec(vars))
