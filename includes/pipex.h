@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/30 12:18:37 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/31 09:47:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	ft_free_vars(t_vars *vars);
 int		ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd);
 int		ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out);
 int		ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write);
+void	ft_execution(char *arg);
 void	ft_error_exec(char **args, char *cmd);
+
+int		main_exec_here_doc(t_vars *vars);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/30 11:49:46 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/31 11:32:29 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,17 @@ static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 		vars->file_in = open(av[1], O_RDONLY);
 		if (vars->file_in == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
-		vars->file_out = ft_check_file_out(ac, av);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
 	else
 	{
-		vars->limiter = av[2];
+		vars->limiter = ft_strjoin(av[2], "\n");
+		if (!vars->limiter)
+			return (NULL);
 		vars->file_in = -1;
-		vars->file_out = ft_check_file_out_hd(ac, av);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
@@ -93,11 +95,11 @@ static void	*ft_init_vars_pipe(t_vars *vars)
 	int	**fd;
 	int	i;
 
-	fd = (int **)malloc(sizeof(int *) * vars->n);
+	fd = (int **)malloc(sizeof(int *) * (vars->n + vars->here_doc));
 	if (!fd)
 		return (ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), NULL);
 	i = 0;
-	while (i < vars->n)
+	while (i < (vars->n + vars->here_doc))
 	{
 		fd[i] = (int *)malloc(sizeof(int) * 2);
 		if (!fd[i])
@@ -114,12 +116,15 @@ static void	*ft_init_vars_pipe(t_vars *vars)
 
 void	ft_free_vars(t_vars *vars)
 {
-	close(vars->file_in);
+	if (vars->file_in != -1)
+		close(vars->file_in);
 	close(vars->file_out);
+	if (vars->limiter)
+		free(vars->limiter);
 	if (vars->cmds)
 		free(vars->cmds);
 	if (vars->fd)
-		ft_free_close_all_fd(vars->fd, vars->n);
+		ft_free_close_all_fd(vars->fd, (vars->n + vars->here_doc));
 	if (vars)
 		free(vars);
 }

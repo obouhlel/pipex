@@ -6,13 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/01/30 15:45:19 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/01/31 10:57:17 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
-
-static void	ft_execution(char *arg);
 
 int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
 {
@@ -31,8 +29,6 @@ int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
 		ft_execution(arg);
 		ft_error_msg_exit();
 	}
-	else
-		wait(NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -76,7 +72,7 @@ int	ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write)
 	return (EXIT_SUCCESS);
 }
 
-static void	ft_execution(char *arg)
+void	ft_execution(char *arg)
 {
 	char	**args;
 	char	*cmd;

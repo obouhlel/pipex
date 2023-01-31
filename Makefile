@@ -13,7 +13,7 @@ NAME		:= pipex
 
 SRCS_DIR	:= srcs/srcs_pipex/
 
-SRCS		:= main.c utils.c exec.c vars.c
+SRCS		:= main.c utils.c exec.c vars.c here_doc.c
 
 SRCS		:= ${addprefix ${SRCS_DIR},${SRCS}}
 
@@ -74,7 +74,6 @@ clean		:
 fclean		: clean
 			@${RM} ${NAME}
 			@echo ${NAME} ${RED}"delete"${OFF}
-			${RM} infile outfile
 
 re			: fclean all
 
