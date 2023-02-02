@@ -13,7 +13,7 @@ SRCS		:= malloc/ft_calloc.c malloc/ft_split.c malloc/ft_strjoin.c mem/ft_bzero.c
 			string/ft_strcmp.c print/ft_putchar_fd.c print/ft_putendl_fd.c print/ft_putnbr_fd.c print/ft_putstr_fd.c print/ft_putstrnbr_fd.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c
 
-OBJS_DIR	:= ../../objs/
+OBJS_DIR	:= ../../objs/libft/
 
 OBJS		:= $(SRCS:.c=.o)
 

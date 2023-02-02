@@ -9,59 +9,98 @@ OFF			:= '\033[0m'
 
 #VARIABLES
 
-NAME		:= pipex
+NAME				:= pipex
 
-SRCS_DIR	:= srcs/srcs_pipex/
+#SRCS MANDATORY
 
-SRCS		:= main.c vars.c exec.c here_doc.c error.c
+SRCS_MANDATORY_DIR	:= srcs/pipex_mandatory/
 
-SRCS		:= ${addprefix ${SRCS_DIR},${SRCS}}
+SRCS_MANDATORY		:= main.c vars.c exec.c here_doc.c error.c
 
-OBJS_DIR	:= objs/
+SRCS_MANDATORY		:= ${addprefix ${SRCS_MANDATORY_DIR},${SRCS_MANDATORY}}
 
-OBJS		:= $(SRCS:.c=.o)
+#SRCS BONUS
 
-OBJS		:= $(addprefix $(OBJS_DIR),$(OBJS))
+SRCS_BONUS_DIR		:= srcs/pipex_bonus/
 
-DEPS		:= ${OBJS:.o=.d}
+SRCS_BONUS			:= main.c vars.c exec.c here_doc.c error.c
 
-LIB_DIR		:= libs/
+SRCS_BONUS			:= ${addprefix ${SRCS_BONUS_DIR},${SRCS_BONUS}}
 
-LIBFT_DIR	:= srcs/libft/
+#OBJS
 
-LIBFT		:= libft.a
+OBJS_DIR			:= ./objs/
 
-MAKE_LIBFT	:= ${addprefix ${LIBFT_DIR},${LIBFT}}
+OBJS				:= ${OBJS_MANDATORY} ${OBJS_BONUS}
 
-LIB_LIBFT	:= ${addprefix ${LIB_DIR},${LIBFT}}
+#OBJS & DEPS MANDATORY
 
-PIPEX		:= pipex.a
+OBJS_MANDATORY		:= $(SRCS_MANDATORY:.c=.o)
 
-LIB_PIPEX	:= ${addprefix ${LIB_DIR},${PIPEX}}
+DEPS_MANDATORY		:= ${OBJS_MANDATORY:.o=.d}
 
-LIBS		:= ${LIB_PIPEX} ${LIB_LIBFT}
+OBJS_MANDATORY		:= $(addprefix $(OBJS_DIR),$(OBJS_MANDATORY))
 
-AR			:= ar rcs
+#OBJS & DEPS BONUS
 
-CC			:= gcc
+OBJS_BONUS			:= $(SRCS_BONUS:.c=.o)
 
-CFLAGS		:= -Wall -Wextra -Werror -MMD -g3
+OBJS_BONUS			:= $(addprefix $(OBJS_DIR),$(OBJS_BONUS))
 
-RM			:= rm -rf
+DEPS_BONUS			:= ${OBJS_BONUS:.o=.d}
 
-MV			:= mv -f
+#LIBS
 
-MKDIR		:= mkdir -p
+DEPS				:= ${DEPS_MANDATORY} ${DEPS_BONUS}
+
+LIB_DIR				:= libs/
+
+LIBFT_DIR			:= srcs/libft/
+
+LIBFT				:= libft.a
+
+MAKE_LIBFT			:= ${addprefix ${LIBFT_DIR},${LIBFT}}
+
+LIB_LIBFT			:= ${addprefix ${LIB_DIR},${LIBFT}}
+
+PIPEX				:= pipex.a
+
+LIB_PIPEX			:= ${addprefix ${LIB_DIR},${PIPEX}}
+
+LIBS				:= ${LIB_PIPEX} ${LIB_LIBFT}
+
+#COMMANDS
+
+AR					:= ar rcs
+
+CC					:= gcc
+
+CFLAGS				:= -Wall -Wextra -Werror -MMD -g3
+
+RM					:= rm -rf
+
+MV					:= mv -f
+
+MKDIR				:= mkdir -p
 
 #RULES
 
 all			: ${NAME}
 
-${NAME}		: ${OBJS}
+${NAME}		: ${OBJS_MANDATORY}
 			@${MKDIR} ${LIB_DIR}
 			@make -C ${LIBFT_DIR}
 			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
-			@${AR} ${LIB_PIPEX} ${OBJS}
+			@${AR} ${LIB_PIPEX} ${OBJS_MANDATORY}
+			@echo ${PIPEX} ${GREEN}"done"${OFF}
+			@${CC} ${CFLAGS} ${LIBS} -o ${NAME}
+			@echo ${NAME} ${GREEN}"done"${OFF}
+
+bonus		: ${OBJS_BONUS}
+			@${MKDIR} ${LIB_DIR}
+			@make -C ${LIBFT_DIR}
+			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
+			@${AR} ${LIB_PIPEX} ${OBJS_BONUS}
 			@echo ${PIPEX} ${GREEN}"done"${OFF}
 			@${CC} ${CFLAGS} ${LIBS} -o ${NAME}
 			@echo ${NAME} ${GREEN}"done"${OFF}
