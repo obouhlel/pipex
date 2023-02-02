@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 15:06:53 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:09:03 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,49 +41,24 @@ static void	*ft_init_vars_cmds(t_vars *vars, char **av)
 	if (!vars->cmds)
 		return (ft_putendl_fd(ERROR_MALLOC, STDERR_FILENO), NULL);
 	i = 0;
-	if (vars->here_doc == 0)
+	while (i <= vars->n)
 	{
-		while (i <= vars->n)
-		{
-			vars->cmds[i] = av[2 + i];
-			i++;
-		}
-		vars->cmds[i] = NULL;
+		vars->cmds[i] = av[2 + i];
+		i++;
 	}
-	else
-	{
-		while (i <= vars->n)
-		{
-			vars->cmds[i] = av[3 + i];
-			i++;
-		}
-		vars->cmds[i] = NULL;
-	}
+	vars->cmds[i] = NULL;
 	return (SUCCESS);
 }
 
 static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 {
-	if (vars->here_doc == 0)
-	{
-		vars->limiter = NULL;
-		vars->file_in = open(av[1], O_RDONLY);
-		if (vars->file_in == -1)
-			ft_putendl_fd(strerror(errno), STDERR_FILENO);
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR, 0666);
-		if (vars->file_out == -1)
-			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
-	}
-	else
-	{
-		vars->limiter = ft_strjoin(av[2], "\n");
-		if (!vars->limiter)
-			return (NULL);
-		vars->file_in = -1;
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0666);
-		if (vars->file_out == -1)
-			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
-	}
+	vars->limiter = NULL;
+	vars->file_in = open(av[1], O_RDONLY);
+	if (vars->file_in == -1)
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR, 0666);
+	if (vars->file_out == -1)
+		return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	return (SUCCESS);
 }
 
@@ -122,7 +97,7 @@ void	ft_free_vars(t_vars *vars)
 	if (vars->cmds)
 		free(vars->cmds);
 	if (vars->fd)
-		ft_free_close_all_fd(vars->fd, (vars->n + vars->here_doc));
+		ft_free_close_all_fd(vars->fd, vars->n);
 	if (vars)
 		free(vars);
 }

@@ -6,11 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 13:56:41 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:11:25 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/pipex_bonus.h"
 
 static int	main_exec(t_vars *vars);
 
@@ -44,17 +44,11 @@ static int	main_exec(t_vars *vars)
 	int	i;
 
 	i = 0;
-	while (i <= vars->n)
+	while (i < vars->n)
 	{
 		if (i == 0)
 		{
 			if (ft_exec_first(vars, vars->cmds[i], vars->file_in, vars->fd[i]))
-				return (ft_free_vars(vars), errno);
-		}
-		else if (i == vars->n)
-		{
-			if (ft_exec_last(vars, vars->cmds[i], \
-				vars->fd[i - 1], vars->file_out))
 				return (ft_free_vars(vars), errno);
 		}
 		else
@@ -64,9 +58,9 @@ static int	main_exec(t_vars *vars)
 		}
 		i++;
 	}
-	i = -1;
-	while (++i <= vars->n)
-		wait(NULL);
+	if (ft_exec_last(vars, vars->cmds[i], vars->fd[i - 1], vars->file_out))
+		return (ft_free_vars(vars), errno);
+	wait(NULL);
 	ft_free_vars(vars);
 	return (EXIT_SUCCESS);
 }

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 17:11:02 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:09:33 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 //for return value with malloc function
 # define SUCCESS (void *)1
@@ -45,18 +45,20 @@ enum	e_fd_pipe
 //vars struct
 typedef struct s_vars
 {
+	int		here_doc;
 	int		n;
+	char	*limiter;
 	char	**cmds;
 	int		file_in;
 	int		file_out;
-	int		fd[2];
+	int		**fd;
 }	t_vars;
 
 //utils.c
 int		ft_error_msg(void);
 void	ft_error_msg_exit(void);
 void	ft_error_exec(char **args, char *cmd);
-void	ft_close_fd(int fd[2]);
+void	ft_free_close_all_fd(int **fd, const int n);
 
 //vars.c
 t_vars	*ft_init_vars(int ac, char **av);
@@ -65,6 +67,7 @@ void	ft_free_vars(t_vars *vars);
 //exec.c
 int		ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd);
 int		ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out);
+int		ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write);
 
 //here_doc.c
 int		main_exec_here_doc(t_vars *vars);

@@ -6,11 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 13:55:52 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:11:46 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/pipex.h"
+#include "../../includes/pipex_bonus.h"
 
 static void	*ft_init_vars_cmds(t_vars *vars, char **av);
 static void	*ft_init_vars_file(int ac, char **av, t_vars *vars);
