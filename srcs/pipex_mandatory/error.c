@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 13:42:25 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:22:05 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,13 @@ void	ft_error_exec(char **args, char *cmd)
 		free(cmd);
 }
 
-void	ft_free_close_all_fd(int **fd, const int n)
+void	ft_close_fd(int fd[2])
 {
-	int	i;
-
-	i = 0;
 	if (fd)
 	{
-		while (i < n)
-		{
-			if (fd[i])
-			{
-				if (fd[i][0])
-					close(fd[i][0]);
-				if (fd[i][1])
-					close(fd[i][1]);
-				free(fd[i]);
-			}
-			i++;
-		}
-		free(fd);
+		if (fd[0])
+			close(fd[0]);
+		if (fd[1])
+			close(fd[1]);
 	}
 }

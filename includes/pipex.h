@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 17:11:02 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 18:40:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ t_vars	*ft_init_vars(int ac, char **av);
 void	ft_free_vars(t_vars *vars);
 
 //exec.c
-int		ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd);
-int		ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out);
-
-//here_doc.c
-int		main_exec_here_doc(t_vars *vars);
+int		ft_exec_first(t_vars *vars, char *arg, int file_in, int fd[2]);
+int		ft_exec_last(t_vars *vars, char *arg, int fd[2], int file_out);
 
 #endif

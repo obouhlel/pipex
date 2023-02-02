@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 16:50:06 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:28:42 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	ft_execution(char *arg);
 
-int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
+int	ft_exec_first(t_vars *vars, char *arg, int file_in, int fd[2])
 {
 	int		id;
 
@@ -23,21 +23,24 @@ int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
 		return (ft_error_msg());
 	if (id == 0)
 	{
-		if (file_in != -1)
+		close(fd[R]);
+		if (file_in != -1 && file_in != STDIN_FILENO)
 		{
 			if (dup2(file_in, STDIN_FILENO) == -1)
 				return (ft_free_vars(vars), ft_error_msg_exit(), errno);
+			close(file_in);
 		}
 		if (dup2(fd[W], STDOUT_FILENO) == -1)
 			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
+		close(fd[W]);
 		ft_free_vars(vars);
 		ft_execution(arg);
 		ft_error_msg_exit();
 	}
-	return (EXIT_SUCCESS);
+	return (id);
 }
 
-int	ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out)
+int	ft_exec_last(t_vars *vars, char *arg, int fd[2], int file_out)
 {
 	int		id;
 
@@ -46,15 +49,18 @@ int	ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out)
 		return (ft_error_msg());
 	if (id == 0)
 	{
+		close(fd[W]);
 		if (dup2(fd[R], STDIN_FILENO) == -1)
 			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
 		if (dup2(file_out, STDOUT_FILENO) == -1)
 			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
+		close(file_out);
+		close(fd[R]);
 		ft_free_vars(vars);
 		ft_execution(arg);
 		ft_error_msg_exit();
 	}
-	return (EXIT_SUCCESS);
+	return (id);
 }
 
 static void	ft_execution(char *arg)
