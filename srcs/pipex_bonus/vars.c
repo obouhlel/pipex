@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 10:21:37 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 13:55:52 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 		vars->file_in = open(av[1], O_RDONLY);
 		if (vars->file_in == -1)
 			ft_putendl_fd(strerror(errno), STDERR_FILENO);
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR, 0666);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_TRUNC | O_WRONLY, 0666);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
@@ -83,7 +83,8 @@ static void	*ft_init_vars_file(int ac, char **av, t_vars *vars)
 		if (!vars->limiter)
 			return (NULL);
 		vars->file_in = -1;
-		vars->file_out = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0666);
+		vars->file_out = open(av[ac - 1], O_CREAT | O_TRUNC | \
+									O_WRONLY | O_APPEND, 0666);
 		if (vars->file_out == -1)
 			return (ft_putendl_fd(strerror(errno), STDERR_FILENO), NULL);
 	}
@@ -118,7 +119,8 @@ void	ft_free_vars(t_vars *vars)
 {
 	if (vars->file_in != -1)
 		close(vars->file_in);
-	close(vars->file_out);
+	if (vars->file_out != -1)
+		close(vars->file_out);
 	if (vars->limiter)
 		free(vars->limiter);
 	if (vars->cmds)

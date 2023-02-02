@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 10:22:55 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:10:28 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	ft_exec_first(t_vars *vars, char *arg, int file_in, int *fd)
 		if (file_in != -1)
 		{
 			if (dup2(file_in, STDIN_FILENO) == -1)
-				ft_error_msg_exit();
+				return (ft_free_vars(vars), ft_error_msg_exit(), errno);
 		}
 		if (dup2(fd[W], STDOUT_FILENO) == -1)
-			ft_error_msg_exit();
+			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
 		ft_free_vars(vars);
 		ft_execution(arg);
 		ft_error_msg_exit();
@@ -47,29 +47,9 @@ int	ft_exec_last(t_vars *vars, char *arg, int *fd, int file_out)
 	if (id == 0)
 	{
 		if (dup2(fd[R], STDIN_FILENO) == -1)
-			ft_error_msg_exit();
+			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
 		if (dup2(file_out, STDOUT_FILENO) == -1)
-			ft_error_msg_exit();
-		ft_free_vars(vars);
-		ft_execution(arg);
-		ft_error_msg_exit();
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	ft_exec(t_vars *vars, char *arg, int *fd_read, int *fd_write)
-{
-	int		id;
-
-	id = fork();
-	if (id == -1)
-		return (ft_error_msg());
-	if (id == 0)
-	{
-		if (dup2(fd_read[R], STDIN_FILENO) == -1)
-			ft_error_msg_exit();
-		if (dup2(fd_write[W], STDOUT_FILENO) == -1)
-			ft_error_msg_exit();
+			return (ft_free_vars(vars), ft_error_msg_exit(), errno);
 		ft_free_vars(vars);
 		ft_execution(arg);
 		ft_error_msg_exit();

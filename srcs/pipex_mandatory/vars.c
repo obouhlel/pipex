@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 10:21:37 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:06:53 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ t_vars	*ft_init_vars(int ac, char **av)
 {
 	t_vars	*vars;
 
-	vars = (t_vars *)malloc(sizeof(t_vars));
+	vars = (t_vars *)ft_calloc(sizeof(t_vars), 1);
 	if (!vars)
 		return (NULL);
-	vars->here_doc = 0;
-	if (ft_strcmp(av[1], "here_doc") == 0)
-		vars->here_doc = 1;
-	vars->n = ac - 4 - vars->here_doc;
+	vars->n = ac - 4;
 	if (!ft_init_vars_cmds(vars, av))
 		return (ft_free_vars(vars), NULL);
 	if (!ft_init_vars_file(ac, av, vars))
@@ -118,7 +115,8 @@ void	ft_free_vars(t_vars *vars)
 {
 	if (vars->file_in != -1)
 		close(vars->file_in);
-	close(vars->file_out);
+	if (vars->file_out != -1)
+		close(vars->file_out);
 	if (vars->limiter)
 		free(vars->limiter);
 	if (vars->cmds)

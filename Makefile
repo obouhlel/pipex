@@ -11,11 +11,13 @@ OFF			:= '\033[0m'
 
 NAME				:= pipex
 
+NAME_BONUS			:= pipex_bonus
+
 #SRCS MANDATORY
 
 SRCS_MANDATORY_DIR	:= srcs/pipex_mandatory/
 
-SRCS_MANDATORY		:= main.c vars.c exec.c here_doc.c error.c
+SRCS_MANDATORY		:= main.c vars.c exec.c error.c
 
 SRCS_MANDATORY		:= ${addprefix ${SRCS_MANDATORY_DIR},${SRCS_MANDATORY}}
 
@@ -45,29 +47,17 @@ OBJS_MANDATORY		:= $(addprefix $(OBJS_DIR),$(OBJS_MANDATORY))
 
 OBJS_BONUS			:= $(SRCS_BONUS:.c=.o)
 
-OBJS_BONUS			:= $(addprefix $(OBJS_DIR),$(OBJS_BONUS))
-
 DEPS_BONUS			:= ${OBJS_BONUS:.o=.d}
 
-#LIBS
+OBJS_BONUS			:= $(addprefix $(OBJS_DIR),$(OBJS_BONUS))
 
 DEPS				:= ${DEPS_MANDATORY} ${DEPS_BONUS}
 
-LIB_DIR				:= libs/
+#LIB
 
-LIBFT_DIR			:= srcs/libft/
+LIB_DIR				:= ./srcs/libft/
 
-LIBFT				:= libft.a
-
-MAKE_LIBFT			:= ${addprefix ${LIBFT_DIR},${LIBFT}}
-
-LIB_LIBFT			:= ${addprefix ${LIB_DIR},${LIBFT}}
-
-PIPEX				:= pipex.a
-
-LIB_PIPEX			:= ${addprefix ${LIB_DIR},${PIPEX}}
-
-LIBS				:= ${LIB_PIPEX} ${LIB_LIBFT}
+LIB					:= ./srcs/libft/libft.a
 
 #COMMANDS
 
@@ -79,50 +69,45 @@ CFLAGS				:= -Wall -Wextra -Werror -MMD -g3
 
 RM					:= rm -rf
 
-MV					:= mv -f
-
 MKDIR				:= mkdir -p
 
 #RULES
 
-all			: ${NAME}
+all				: ${NAME}
 
-${NAME}		: ${OBJS_MANDATORY}
-			@${MKDIR} ${LIB_DIR}
-			@make -C ${LIBFT_DIR}
-			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
-			@${AR} ${LIB_PIPEX} ${OBJS_MANDATORY}
-			@echo ${PIPEX} ${GREEN}"done"${OFF}
-			@${CC} ${CFLAGS} ${LIBS} -o ${NAME}
-			@echo ${NAME} ${GREEN}"done"${OFF}
+bonus			: ${NAME_BONUS}
 
-bonus		: ${OBJS_BONUS}
-			@${MKDIR} ${LIB_DIR}
-			@make -C ${LIBFT_DIR}
-			@${MV} ${MAKE_LIBFT} ${LIB_DIR}
-			@${AR} ${LIB_PIPEX} ${OBJS_BONUS}
-			@echo ${PIPEX} ${GREEN}"done"${OFF}
-			@${CC} ${CFLAGS} ${LIBS} -o ${NAME}
-			@echo ${NAME} ${GREEN}"done"${OFF}
+${NAME}			: ${LIB} ${OBJS_MANDATORY}
+				@${CC} ${CFLAGS} ${OBJS_MANDATORY} -L ${LIB_DIR} -lft -o ${NAME}
+				@echo ${NAME} ${GREEN}"done"${OFF}
 
-clean		:
-			@make clean -C ${LIBFT_DIR}
-			@${RM} ${OBJS_DIR} ${LIB_DIR}
-			@echo "All objects and library "${RED}"delete"${OFF}
+${NAME_BONUS}	: ${LIB} ${OBJS_BONUS}
+				@${CC} ${CFLAGS} ${OBJS_BONUS} -L ${LIB_DIR} -lft -o ${NAME_BONUS}
+				@echo ${NAME_BONUS} ${GREEN}"done"${OFF}
 
-fclean		: clean
-			@${RM} ${NAME}
-			@echo ${NAME} ${RED}"delete"${OFF}
+${LIB}			:
+				@make -C ${LIB_DIR}
+				@echo ${LIB} ${GREEN}"done"${OFF}
 
-re			: fclean all
+clean			:
+				@make clean -C ${LIB_DIR}
+				@${RM} ${OBJS_DIR}
+				@echo "All objects and library "${RED}"delete"${OFF}
 
-.PHONY		: all clean fclean re test
+fclean			: clean
+				@make fclean -C ${LIB_DIR}
+				@${RM} ${NAME} ${NAME_BONUS}
+				@echo ${NAME} ${RED}"delete"${OFF}
+
+re				: fclean all
+
+.PHONY			: all clean fclean re test
 
 #RECETTE
-
--include $(DEPS)
 
 $(OBJS_DIR)%.o	: %.c
 				@${MKDIR} $(@D)
 	        	@${CC} ${CFLAGS} -c $< -o $@
 				@echo "$@ "${GREEN}"done"${OFF}
+
+-include $(DEPS)
