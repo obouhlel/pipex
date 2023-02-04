@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 17:11:25 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:57:32 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ static int	main_exec(t_vars *vars)
 	}
 	if (ft_exec_last(vars, vars->cmds[i], vars->fd[i - 1], vars->file_out))
 		return (ft_free_vars(vars), errno);
-	wait(NULL);
+	i = vars->n + 1;
 	ft_free_vars(vars);
+	while (--i >= 0)
+		wait(NULL);
 	return (EXIT_SUCCESS);
 }
