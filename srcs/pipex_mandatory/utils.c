@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/04 18:28:16 by obouhlel         ###   ########.fr       */
+/*   Created: 2023/02/04 17:19:26 by obouhlel          #+#    #+#             */
+/*   Updated: 2023/02/04 17:43:35 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-int	main(int ac, char **av, char **env)
+char	**ft_get_path(char **env)
 {
-	t_vars	*vars;
+	int	i;
 
-	vars = NULL;
-	if (ac != 5)
-		return (ft_error(NULL, ERROR_AC, NULL), EXIT_FAILURE);
-	vars = ft_init_vars(ac, av, env);
-	if (!vars)
-		return (EXIT_FAILURE);
-	if (main_exec(vars))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], "PATH=", 5))
+			return (ft_split(env[i] + 5, ':'));
+		i++;
+	}
+	return (NULL);
+}
+
+void	ft_close_fd(int fd[2])
+{
+	if (fd)
+	{
+		if (fd[0])
+			close(fd[0]);
+		if (fd[1])
+			close(fd[1]);
+	}
 }

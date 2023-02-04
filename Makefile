@@ -17,7 +17,7 @@ NAME_BONUS			:= pipex_bonus
 
 SRCS_MANDATORY_DIR	:= srcs/pipex_mandatory/
 
-SRCS_MANDATORY		:= main.c vars.c exec.c error.c
+SRCS_MANDATORY		:= main.c vars.c exec.c utils.c free.c error.c
 
 SRCS_MANDATORY		:= ${addprefix ${SRCS_MANDATORY_DIR},${SRCS_MANDATORY}}
 

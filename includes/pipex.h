@@ -6,15 +6,12 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 18:40:56 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:37:41 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-
-//for return value with malloc function
-# define SUCCESS (void *)1
 
 # include "libft.h"
 //open, close, read, write, list, free, perror, strerror, access, dup, dup2,
@@ -28,12 +25,23 @@
 # include <errno.h>
 # include <string.h>
 
+//return value
+# define SUCCESS 0
+# define FAIL -1
+
 //error message
 # define ERROR_AC "\033[0;31mBad argument\033[0m, please run with 4 or more arguments.\n\
 Example : ./pipex infile \"ls -l\" \"wc -l\" outfile."
 # define ERROR_ACHD "\033[0;31mBad argument\033[0m, please run with 5 or more arguments.\n\
 Example : ./pipex here_doc LIMITER \"cat\" \"grep o\" outfile."
 # define ERROR_MALLOC "\033[0;31mMalloc fail\033[0m"
+# define ERROR_PATH "\033[0;31mBad path\033[0m, please check your PATH variable."
+# define ERROR_CMD "Command not found"
+
+//std fd
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 //for index of pipe fd
 enum	e_fd_pipe
@@ -46,24 +54,34 @@ enum	e_fd_pipe
 typedef struct s_vars
 {
 	int		n;
+	char	*infile;
+	char	*outfile;
+	char	**path;
 	char	**cmds;
-	int		file_in;
-	int		file_out;
 	int		fd[2];
 }	t_vars;
 
+//error.c
+void	ft_error_exit(t_vars *vars, char *msg, int exit_code, void (*f)(int *));
+void	ft_error(t_vars *vars, char *msg, void (*f)(int *));
+
+//free.c
+void	ft_free_strs(char **strs);
+void	ft_free_exec(char **args, char *cmd);
+void	ft_free_vars(t_vars *vars);
+
 //utils.c
-int		ft_error_msg(void);
-void	ft_error_msg_exit(void);
-void	ft_error_exec(char **args, char *cmd);
+char	**ft_get_path(char **env);
 void	ft_close_fd(int fd[2]);
 
 //vars.c
-t_vars	*ft_init_vars(int ac, char **av);
-void	ft_free_vars(t_vars *vars);
+t_vars	*ft_init_vars(int ac, char **av, char **env);
 
 //exec.c
-int		ft_exec_first(t_vars *vars, char *arg, int file_in, int fd[2]);
-int		ft_exec_last(t_vars *vars, char *arg, int fd[2], int file_out);
+int		main_exec(t_vars *vars);
+int		ft_open(char *name_file, int flag);
+int		ft_exec_first(t_vars *vars, char *arg, int fd[2], char *name_file);
+int		ft_exec_last(t_vars *vars, char *arg, int fd[2], char *name_file);
+void	ft_execution(char *arg);
 
 #endif

@@ -1,28 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/04 18:28:16 by obouhlel         ###   ########.fr       */
+/*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
+/*   Updated: 2023/02/04 17:51:09 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_free_strs(char **strs)
 {
-	t_vars	*vars;
+	int	i;
 
-	vars = NULL;
-	if (ac != 5)
-		return (ft_error(NULL, ERROR_AC, NULL), EXIT_FAILURE);
-	vars = ft_init_vars(ac, av, env);
-	if (!vars)
-		return (EXIT_FAILURE);
-	if (main_exec(vars))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	i = 0;
+	if (strs)
+	{
+		while (strs[i])
+			free(strs[i++]);
+		free(strs);
+	}
+}
+
+void	ft_free_exec(char **args, char *cmd)
+{
+	if (args)
+		ft_free_strs(args);
+	if (cmd)
+		free(cmd);
+}
+
+void	ft_free_vars(t_vars *vars)
+{
+	if (vars->path)
+		ft_free_strs(vars->path);
+	if (vars->cmds)
+		free(vars->cmds);
+	if (vars)
+		free(vars);
 }
