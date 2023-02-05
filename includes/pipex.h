@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/04 18:37:41 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 12:11:23 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ Example : ./pipex here_doc LIMITER \"cat\" \"grep o\" outfile."
 # define ERROR_CMD "Command not found"
 
 //std fd
-# define STDIN 0
-# define STDOUT 1
+# define STDIN	0
+# define STDOUT	1
 # define STDERR 2
 
 //for index of pipe fd
@@ -62,12 +62,12 @@ typedef struct s_vars
 }	t_vars;
 
 //error.c
+void	ft_error_exec(t_vars *vars, char **args, char *tmp, char *msg);
 void	ft_error_exit(t_vars *vars, char *msg, int exit_code, void (*f)(int *));
 void	ft_error(t_vars *vars, char *msg, void (*f)(int *));
 
 //free.c
 void	ft_free_strs(char **strs);
-void	ft_free_exec(char **args, char *cmd);
 void	ft_free_vars(t_vars *vars);
 
 //utils.c
@@ -79,9 +79,8 @@ t_vars	*ft_init_vars(int ac, char **av, char **env);
 
 //exec.c
 int		main_exec(t_vars *vars);
-int		ft_open(char *name_file, int flag);
 int		ft_exec_first(t_vars *vars, char *arg, int fd[2], char *name_file);
 int		ft_exec_last(t_vars *vars, char *arg, int fd[2], char *name_file);
-void	ft_execution(char *arg);
+void	ft_execution(t_vars *vars, char *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/04 17:51:09 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 11:31:15 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ void	ft_free_strs(char **strs)
 			free(strs[i++]);
 		free(strs);
 	}
-}
-
-void	ft_free_exec(char **args, char *cmd)
-{
-	if (args)
-		ft_free_strs(args);
-	if (cmd)
-		free(cmd);
 }
 
 void	ft_free_vars(t_vars *vars)
