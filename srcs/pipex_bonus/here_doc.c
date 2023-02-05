@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 09:23:24 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 14:37:46 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:07:25 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,20 @@ int	main_exec_here_doc(t_vars *vars)
 {
 	static char	*str = "Bonjour";
 
-	while (1)
+	while (str)
 	{
-		if (str)
-			ft_putstr_fd("pipe heredoc> ", STDERR);
+		ft_putstr_fd("pipe heredoc> ", STDERR);
 		str = get_next_line(STDIN);
+		if (!str)
+			break ;
 		if (str && ft_strcmp(str, vars->limiter) == 0)
 		{
 			free(str);
-			close(vars->fd[0][1]);
+			close(vars->pipes[0][W]);
 			break ;
 		}
-		ft_putstr_fd(str, vars->fd[0][1]);
+		ft_putstr_fd(str, vars->pipes[0][W]);
 		free(str);
 	}
-	if (main_exec_here_doc_bis(vars))
-		return (errno);
-	return (EXIT_SUCCESS);
-}
-
-int	main_exec_here_doc_bis(t_vars *vars)
-{
-	int	i;
-
-	i = 0;
-	while (i < vars->n)
-	{
-		if (i == 0)
-		{
-			if (ft_exec_first(vars, vars->cmds[i], \
-				vars->fd[0][0], vars->fd[i + 1]))
-				return (ft_free_vars(vars), errno);
-		}
-		else
-		{
-			if (ft_exec(vars, vars->cmds[i], vars->fd[i], vars->fd[i + 1]))
-				return (ft_free_vars(vars), errno);
-		}
-		i++;
-	}
-	if (ft_exec_last(vars, vars->cmds[i], vars->fd[i], vars->outfile))
-		return (ft_free_vars(vars), errno);
-	ft_free_vars(vars);
-	i = -1;
-	while (++i <= vars->n)
-		wait(NULL);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 14:29:26 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:16:12 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,14 @@
 int	main_exec(t_vars *vars)
 {
 	int	i;
-	int	pid[2];
+	int	*pid;
 
-	pid[0] = ft_exec_first(vars, vars->cmds[0], vars->fd, vars->infile);
-	if (pid[0] == FAIL)
-		return (EXIT_FAILURE);
-	pid[1] = ft_exec_last(vars, vars->cmds[1], vars->fd, vars->outfile);
-	if (pid[1] == FAIL)
-		return (EXIT_FAILURE);
-	ft_close_fd(vars->fd);
+	pid = (int *)malloc(sizeof(int) * (vars->nb_pipes + 1));
+	if (!pid)
+		return (ft_error(vars, ERROR_MALLOC, ft_close_pipes), FAIL);
+	ft_close_fd(vars->pipes);
 	i = -1;
-	while (++i < (vars->n + 1))
+	while (++i < (vars->nb_pipes + 1))
 		waitpid(pid[i], NULL, 0);
 	ft_free_vars(vars);
 	return (EXIT_SUCCESS);
@@ -41,13 +38,13 @@ int	ft_exec_first(t_vars *vars, char *arg, int fd[2], char *name_file)
 	{
 		fd_file = open(name_file, O_RDONLY);
 		if (fd_file == FAIL)
-			return (ft_error(vars, strerror(errno), &ft_close_fd), FAIL);
+			return (ft_error(vars, strerror(errno), &ft_close_pipes), FAIL);
 		if (dup2(fd_file, STDIN) == FAIL)
-			return (ft_error(vars, strerror(errno), &ft_close_fd), FAIL);
+			return (ft_error(vars, strerror(errno), &ft_close_pipes), FAIL);
 		close (fd_file);
 		close(fd[R]);
 		if (dup2(fd[W], STDOUT) == FAIL)
-			return (ft_error(vars, strerror(errno), &ft_close_fd), FAIL);
+			return (ft_error(vars, strerror(errno), &ft_close_pipes), FAIL);
 		close(fd[W]);
 		ft_execution(vars, arg);
 	}

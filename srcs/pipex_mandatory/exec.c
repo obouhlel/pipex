@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 14:14:18 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:15:59 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main_exec(t_vars *vars)
 		return (EXIT_FAILURE);
 	ft_close_fd(vars->fd);
 	i = -1;
-	while (++i < (vars->n + 1))
+	while (++i < (vars->nb_pipes + 1))
 		waitpid(pid[i], NULL, 0);
 	ft_free_vars(vars);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:26 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 14:32:56 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:30:11 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,21 @@ char	**ft_get_path(char **env)
 	return (NULL);
 }
 
-void	ft_close_fd(t_vars *vars)
+void	ft_close_pipes(t_vars *vars)
 {
 	int	i;
 
 	i = 0;
-	if (vars->fd)
+	if (vars->pipes)
 	{
-		while (i < vars->n)
+		while (i < (vars->nb_pipes + vars->here_doc))
 		{
-			if (vars->fd[i])
+			if (vars->pipes[i])
 			{
-				if (vars->fd[i][R])
-					close(vars->fd[i][R]);
-				if (vars->fd[i][W])
-					close(vars->fd[i][W]);
+				if (vars->pipes[i][R])
+					close(vars->pipes[i][R]);
+				if (vars->pipes[i][W])
+					close(vars->pipes[i][W]);
 			}
 			i++;
 		}

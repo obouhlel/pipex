@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 12:11:23 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 21:15:59 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum	e_fd_pipe
 //vars struct
 typedef struct s_vars
 {
-	int		n;
+	int		nb_pipes;
 	char	*infile;
 	char	*outfile;
 	char	**path;
