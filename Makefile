@@ -25,7 +25,7 @@ SRCS_MANDATORY		:= ${addprefix ${SRCS_MANDATORY_DIR},${SRCS_MANDATORY}}
 
 SRCS_BONUS_DIR		:= srcs/pipex_bonus/
 
-SRCS_BONUS			:= main.c vars.c exec.c here_doc.c error.c
+SRCS_BONUS			:= main.c vars.c exec.c utils.c free.c error.c here_doc.c
 
 SRCS_BONUS			:= ${addprefix ${SRCS_BONUS_DIR},${SRCS_BONUS}}
 

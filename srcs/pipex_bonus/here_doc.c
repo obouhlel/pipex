@@ -6,13 +6,11 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 09:23:24 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/04 18:55:56 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:37:46 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex_bonus.h"
-
-static int	main_exec_here_doc_bis(t_vars *vars);
 
 int	main_exec_here_doc(t_vars *vars)
 {
@@ -21,8 +19,8 @@ int	main_exec_here_doc(t_vars *vars)
 	while (1)
 	{
 		if (str)
-			ft_putstr_fd("pipe heredoc> ", STDERR_FILENO);
-		str = get_next_line(STDIN_FILENO);
+			ft_putstr_fd("pipe heredoc> ", STDERR);
+		str = get_next_line(STDIN);
 		if (str && ft_strcmp(str, vars->limiter) == 0)
 		{
 			free(str);
@@ -37,7 +35,7 @@ int	main_exec_here_doc(t_vars *vars)
 	return (EXIT_SUCCESS);
 }
 
-static int	main_exec_here_doc_bis(t_vars *vars)
+int	main_exec_here_doc_bis(t_vars *vars)
 {
 	int	i;
 
@@ -57,7 +55,7 @@ static int	main_exec_here_doc_bis(t_vars *vars)
 		}
 		i++;
 	}
-	if (ft_exec_last(vars, vars->cmds[i], vars->fd[i], vars->file_out))
+	if (ft_exec_last(vars, vars->cmds[i], vars->fd[i], vars->outfile))
 		return (ft_free_vars(vars), errno);
 	ft_free_vars(vars);
 	i = -1;

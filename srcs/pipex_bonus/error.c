@@ -6,58 +6,40 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/02 17:11:51 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:27:58 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex_bonus.h"
 
-void	ft_error_msg_exit(void)
+void	ft_error_exec(t_vars *vars, char **args, char *tmp, char *msg)
 {
-	ft_putendl_fd(strerror(errno), STDERR_FILENO);
-	exit(errno);
-}
-
-int	ft_error_msg(void)
-{
-	ft_putendl_fd(strerror(errno), STDERR_FILENO);
-	return (errno);
-}
-
-void	ft_error_exec(char **args, char *cmd)
-{
-	int	i;
-
+	if (vars)
+		ft_free_vars(vars);
 	if (args)
-	{
-		i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-	}
-	if (cmd)
-		free(cmd);
+		ft_free_strs(args);
+	if (tmp)
+		free(tmp);
+	if (msg)
+		ft_putendl_fd(msg, STDERR);
+	exit(EXIT_FAILURE);
 }
 
-void	ft_free_close_all_fd(int **fd, const int n)
+void	ft_error(t_vars *vars, char *msg, void (*f)(int *))
 {
-	int	i;
+	ft_putendl_fd(msg, STDERR);
+	if (f)
+		f(vars->fd);
+	if (vars)
+		ft_free_vars(vars);
+}
 
-	i = 0;
-	if (fd)
-	{
-		while (i < n)
-		{
-			if (fd[i])
-			{
-				if (fd[i][0])
-					close(fd[i][0]);
-				if (fd[i][1])
-					close(fd[i][1]);
-				free(fd[i]);
-			}
-			i++;
-		}
-		free(fd);
-	}
+void	ft_error_exit(t_vars *vars, char *msg, int exit_code, void (*f)(int *))
+{
+	ft_putendl_fd(msg, STDERR);
+	if (f)
+		f(vars->fd);
+	if (vars)
+		ft_free_vars(vars);
+	exit(exit_code);
 }
