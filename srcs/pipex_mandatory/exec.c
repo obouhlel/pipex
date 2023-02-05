@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 12:33:30 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:14:18 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ void	ft_execution(t_vars *vars, char *arg)
 	free(tmp);
 	ft_free_vars(vars);
 	execve(cmd, args, NULL);
-	ft_error_exec(NULL, args, tmp, strerror(errno));
+	ft_error_exec(NULL, args, cmd, strerror(errno));
 }
