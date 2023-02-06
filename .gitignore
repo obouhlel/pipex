@@ -1,7 +1,6 @@
 #folder
 .vscode
-objs
-libs
+.objs
 
 #files
 *.o

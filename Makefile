@@ -31,7 +31,7 @@ SRCS_BONUS			:= ${addprefix ${SRCS_BONUS_DIR},${SRCS_BONUS}}
 
 #OBJS
 
-OBJS_DIR			:= ./objs/
+OBJS_DIR			:= .objs/
 
 OBJS				:= ${OBJS_MANDATORY} ${OBJS_BONUS}
 
@@ -86,18 +86,17 @@ ${NAME_BONUS}	: ${LIB} ${OBJS_BONUS}
 				@echo ${NAME_BONUS} ${GREEN}"done"${OFF}
 
 ${LIB}			:
-				@make -C ${LIB_DIR}
-				@echo ${LIB} ${GREEN}"done"${OFF}
+				@make -C ${LIB_DIR} --no-print-directory
 
 clean			:
-				@make clean -C ${LIB_DIR}
+				@make clean -C ${LIB_DIR} --no-print-directory
 				@${RM} ${OBJS_DIR}
-				@echo "All objects and library "${RED}"delete"${OFF}
+				@echo "All objects of ${NAME} "${RED}"delete"${OFF}
 
 fclean			: clean
-				@make fclean -C ${LIB_DIR}
+				@${RM} ${LIB}
 				@${RM} ${NAME} ${NAME_BONUS}
-				@echo ${NAME} ${RED}"delete"${OFF}
+				@echo ${NAME}" and libft.a" ${RED}"delete"${OFF}
 
 re				: fclean all
 
