@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 14:04:23 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:54:58 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vars	*ft_init_vars(int ac, char **av, char **env)
 	vars->path = ft_get_path(env);
 	if (!vars->path)
 		return (ft_error(vars, ERROR_PATH, NULL), NULL);
-	vars->cmds = ft_init_vars_cmds(av, (vars->nb_pipes + 1));
+	vars->cmds = ft_init_vars_cmds(av, (vars->nb_pipes + 1), vars->here_doc);
 	if (!vars->cmds)
 		return (ft_error(vars, ERROR_MALLOC, NULL), NULL);
 	vars->pipes = ft_init_vars_pipes(vars);
@@ -47,7 +47,7 @@ void	ft_init_vars_bis(t_vars *vars, int ac, char **av)
 		vars->here_doc = HERE_DOC;
 	if (vars->here_doc == HERE_DOC)
 	{
-		vars->limiter = ft_strjoin(av[1], "\n");
+		vars->limiter = ft_strjoin(av[2], "\n");
 		vars->infile = NULL;
 	}
 	else
@@ -58,7 +58,7 @@ void	ft_init_vars_bis(t_vars *vars, int ac, char **av)
 	vars->outfile = av[ac - 1];
 }
 
-char	**ft_init_vars_cmds(char **av, int nb_cmds)
+char	**ft_init_vars_cmds(char **av, int nb_cmds, int here_doc)
 {
 	char	**cmds;
 	int		i;
@@ -67,11 +67,16 @@ char	**ft_init_vars_cmds(char **av, int nb_cmds)
 	cmds = (char **)malloc(sizeof(char *) * (nb_cmds + 1));
 	if (!cmds)
 		return (NULL);
-	i = 0;
-	while (i < nb_cmds)
+	i = -1;
+	if (here_doc == 0)
 	{
-		cmds[i] = av[2 + i];
-		i++;
+		while (++i < nb_cmds)
+			cmds[i] = av[2 + i];
+	}
+	else
+	{
+		while (++i < nb_cmds - 1)
+			cmds[i] = av[3 + i];
 	}
 	cmds[i] = NULL;
 	return (cmds);

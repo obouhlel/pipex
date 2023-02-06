@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 14:00:39 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:37:10 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_free_vars(t_vars *vars)
 	if (vars->cmds)
 		free(vars->cmds);
 	if (vars->pipes)
-		ft_free_pipes(vars->pipes, vars->nb_pipes);
+		ft_free_pipes(vars->pipes, (vars->nb_pipes + vars->here_doc));
 	if (vars->pid)
 		free(vars->pid);
 	if (vars)

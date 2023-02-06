@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 13:15:12 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:03:22 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_error_exec(t_vars *vars, char **args, char *tmp, char *msg)
 {
+	close(STDIN);
+	close(STDOUT);
 	if (vars)
 		ft_free_vars(vars);
 	if (args)

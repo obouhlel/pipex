@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 14:00:27 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:01:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_close_pipes(t_vars *vars);
 //file vars.c
 t_vars	*ft_init_vars(int ac, char **av, char **env);
 void	ft_init_vars_bis(t_vars *vars, int ac, char **av);
-char	**ft_init_vars_cmds(char **av, int nb_cmds);
+char	**ft_init_vars_cmds(char **av, int nb_cmds, int here_doc);
 int		**ft_init_vars_pipes(t_vars *vars);
 
 //file exec.c
@@ -104,6 +104,8 @@ void	ft_execution(t_vars *vars, char *arg);
 
 //file here_doc.c
 int		main_exec_here_doc(t_vars *vars);
-int		main_exec_here_doc_bis(t_vars *vars);
+int		ft_exec_here_doc(t_vars *vars, char *arg, int fd_read, int fd_write);
+int		ft_exec_end_here_doc(t_vars *vars, char *arg, int fd_read, char *file);
+void	ft_here_doc(t_vars *vars);
 
 #endif
