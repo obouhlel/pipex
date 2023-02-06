@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 21:26:07 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:00:27 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ Example : ./pipex infile \"ls -l\" \"wc -l\" outfile."
 Example : ./pipex here_doc LIMITER \"cat\" \"grep o\" outfile."
 # define ERROR_MALLOC "\033[0;31mMalloc fail\033[0m"
 # define ERROR_PATH "\033[0;31mBad path\033[0m, please check your PATH variable."
+# define ERROR_FORK "\033[0;31mFork fail\033[0m"
 # define ERROR_CMD "Command not found"
 
 //std fd
@@ -69,6 +70,7 @@ typedef struct s_vars
 	char	**path;
 	char	**cmds;
 	int		**pipes;
+	pid_t	*pid;
 }	t_vars;
 
 //file error.c
@@ -82,6 +84,7 @@ void	ft_free_strs(char **strs);
 void	ft_free_vars(t_vars *vars);
 
 //file utils.c
+int		ft_check_pid(pid_t *pid, int nb_pid);
 char	*ft_access(char *cmd, char **path);
 char	**ft_get_path(char **env);
 void	ft_close_pipes(t_vars *vars);
@@ -94,9 +97,9 @@ int		**ft_init_vars_pipes(t_vars *vars);
 
 //file exec.c
 int		main_exec(t_vars *vars);
-int		ft_exec_first(t_vars *vars, char *arg, int fd[2], char *name_file);
-int		ft_exec(t_vars *vars, char *arg, int fd_read[2], int fd_write[2]);
-int		ft_exec_last(t_vars *vars, char *arg, int fd[2], char *name_file);
+int		ft_exec_first(t_vars *vars, char *arg, int fd_write, char *name_file);
+int		ft_exec(t_vars *vars, char *arg, int fd_read, int fd_write);
+int		ft_exec_last(t_vars *vars, char *arg, int fd_read, char *name_file);
 void	ft_execution(t_vars *vars, char *arg);
 
 //file here_doc.c

@@ -6,11 +6,25 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:26 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 21:30:11 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:13:17 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex_bonus.h"
+
+int	ft_check_pid(pid_t *pid, int nb_pid)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_pid)
+	{
+		if (pid[i] == FAIL)
+			return (FAIL);
+		i++;
+	}
+	return (SUCCESS);
+}
 
 char	*ft_access(char *cmd, char **path)
 {

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 21:28:32 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:04:23 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_vars	*ft_init_vars(int ac, char **av, char **env)
 	if (!vars)
 		return (NULL);
 	ft_init_vars_bis(vars, ac, av);
-	if (vars->here_doc && !vars->limiter)
+	if (vars->here_doc == 1 && !vars->limiter)
 		return (ft_error(vars, ERROR_MALLOC, NULL), NULL);
 	vars->path = ft_get_path(env);
 	if (!vars->path)
@@ -33,6 +33,9 @@ t_vars	*ft_init_vars(int ac, char **av, char **env)
 		return (ft_error(vars, ERROR_MALLOC, NULL), NULL);
 	else if (vars->pipes == PIPE_FAIL)
 		return (ft_error(vars, strerror(errno), NULL), NULL);
+	vars->pid = (int *)ft_calloc(sizeof(int), (vars->nb_pipes + 1));
+	if (!vars->pid)
+		return (ft_error(vars, ERROR_MALLOC, ft_close_pipes), NULL);
 	return (vars);
 }
 
@@ -79,15 +82,14 @@ int	**ft_init_vars_pipes(t_vars *vars)
 	int	**pipes;
 	int	i;
 
-	pipes = (int **)ft_calloc(sizeof(int **), \
-			(vars->nb_pipes + vars->here_doc));
+	pipes = (int **)malloc(sizeof(int *) * (vars->nb_pipes + vars->here_doc));
 	if (!pipes)
 		return (NULL);
 	i = 0;
 	while (i < (vars->nb_pipes + vars->here_doc))
 	{
-		pipes[i] = (int *)ft_calloc(sizeof(int), 2);
-		if (pipes[i])
+		pipes[i] = (int *)malloc(sizeof(int) * 2);
+		if (!pipes[i])
 			return (ft_free_pipes(pipes, (vars->nb_pipes + \
 										vars->here_doc)), NULL);
 		i++;
