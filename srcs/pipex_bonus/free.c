@@ -6,11 +6,20 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 14:37:10 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:13:43 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex_bonus.h"
+
+void	ft_free(void **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
 
 void	ft_free_pipes(int **pipes, int n)
 {
@@ -20,7 +29,7 @@ void	ft_free_pipes(int **pipes, int n)
 	while (i < n)
 	{
 		if (pipes[i])
-			free(pipes[i]);
+			ft_free((void **)&pipes[i]);
 		i++;
 	}
 	if (pipes)
@@ -35,23 +44,27 @@ void	ft_free_strs(char **strs)
 	if (strs)
 	{
 		while (strs[i])
-			free(strs[i++]);
+			ft_free((void **)&strs[i++]);
 		free(strs);
 	}
 }
 
 void	ft_free_vars(t_vars *vars)
 {
+	ft_close_pipes(vars);
 	if (vars->limiter)
-		free(vars->limiter);
+		ft_free((void **)&vars->limiter);
 	if (vars->path)
 		ft_free_strs(vars->path);
 	if (vars->cmds)
-		free(vars->cmds);
+		ft_free((void **)&vars->cmds);
 	if (vars->pipes)
+	{
 		ft_free_pipes(vars->pipes, (vars->nb_pipes + vars->here_doc));
+		vars->pipes = NULL;
+	}
 	if (vars->pid)
-		free(vars->pid);
+		ft_free((void **)&vars->pid);
 	if (vars)
-		free(vars);
+		ft_free((void **)&vars);
 }

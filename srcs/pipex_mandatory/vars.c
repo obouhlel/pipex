@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 11:07:10 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/05 21:15:59 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:40:48 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_vars	*ft_init_vars(int ac, char **av, char **env)
 	t_vars	*vars;
 	int		i;
 
+	vars = NULL;
 	vars = (t_vars *)malloc(sizeof(t_vars));
 	if (!vars)
 		return (NULL);

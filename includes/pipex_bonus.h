@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 15:01:56 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:41:43 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ Example : ./pipex here_doc LIMITER \"cat\" \"grep o\" outfile."
 # define ERROR_PATH "\033[0;31mBad path\033[0m, please check your PATH variable."
 # define ERROR_FORK "\033[0;31mFork fail\033[0m"
 # define ERROR_CMD "Command not found"
+# define ERROR_SAME_FILE "\033[0;31mSame file\033[0m, \
+please check your arguments."
+# define ERROR_NO_FILE "\033[0;31mNo file\033[0m, please check your arguments."
 
 //std fd
 # define STDIN	0
@@ -79,11 +82,13 @@ void	ft_error_exit(t_vars *vars, char *msg, void (*ft_close)(t_vars *));
 void	ft_error(t_vars *vars, char *msg, void (*ft_close)(t_vars *));
 
 //file free.c
+void	ft_free(void **ptr);
 void	ft_free_pipes(int **pipes, int nb_pipes);
 void	ft_free_strs(char **strs);
 void	ft_free_vars(t_vars *vars);
 
 //file utils.c
+int		ft_check_file(char *infile, char *outfile);
 int		ft_check_pid(pid_t *pid, int nb_pid);
 char	*ft_access(char *cmd, char **path);
 char	**ft_get_path(char **env);
