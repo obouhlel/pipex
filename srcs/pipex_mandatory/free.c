@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 11:39:40 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:48:35 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ void	ft_free(void **ptr)
 	}
 }
 
+void	ft_free_vars_and_tmp(t_vars *vars, char *tmp)
+{
+	if (vars)
+		ft_free_vars(vars);
+	if (tmp)
+		ft_free((void **)tmp);
+}
+
 void	ft_free_strs(char **strs)
 {
 	int	i;
@@ -29,7 +37,11 @@ void	ft_free_strs(char **strs)
 	if (strs)
 	{
 		while (strs[i])
-			ft_free((void **)&strs[i++]);
+		{
+			if (strs[i])
+				ft_free((void **)&strs[i]);
+			i++;
+		}
 		free(strs);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:29:02 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:46:26 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,29 @@ char	*ft_access(char *cmd, char **path)
 
 void	ft_execution(t_vars *vars, char *arg)
 {
-	char	**args;
-	char	*cmd;
-	char	*tmp;
+	char		**args;
+	char		*cmd;
+	static char	*tmp = NULL;
 
 	args = ft_split(arg, ' ');
 	if (!args)
 		ft_error_exec(vars, NULL, NULL, ERROR_MALLOC);
-	tmp = ft_strjoin("/", args[0]);
-	if (!tmp)
-		ft_error_exec(vars, args, NULL, ERROR_MALLOC);
-	cmd = ft_access(tmp, vars->path);
-	if (!cmd)
-		ft_error_exec(vars, args, tmp, ERROR_CMD);
-	free(tmp);
-	ft_free_vars(vars);
+	if (access(args[0], X_OK) == FAIL)
+	{
+		tmp = ft_strjoin("/", args[0]);
+		if (!tmp)
+			ft_error_exec(vars, args, NULL, ERROR_MALLOC);
+		cmd = ft_access(tmp, vars->path);
+		if (!cmd)
+			ft_error_exec(vars, args, tmp, ERROR_CMD);
+	}
+	else
+	{
+		cmd = args[0];
+		if (!cmd)
+			ft_error_exec(vars, args, NULL, ERROR_MALLOC);
+	}
+	ft_free_vars_and_tmp(vars, tmp);
 	execve(cmd, args, NULL);
 	ft_error_exec(NULL, args, cmd, strerror(errno));
 }

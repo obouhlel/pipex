@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 11:19:58 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:03:26 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int ac, char **av, char **env)
 		return (EXIT_FAILURE);
 	if (vars->here_doc && ac < 6)
 		return (ft_error(vars, ERROR_ACHD, &ft_close_pipes), EXIT_FAILURE);
+	if (vars && ft_check_cmds(vars->cmds))
+		return (ft_error(vars, ERROR_CMD, &ft_close_pipes), EXIT_FAILURE);
 	if (vars->here_doc == 0)
 	{
 		if (vars && main_exec(vars))

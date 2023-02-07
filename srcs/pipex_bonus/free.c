@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:58 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 11:13:43 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:02:55 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	ft_free(void **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
+}
+
+void	ft_free_vars_and_tmp(t_vars *vars, char *tmp)
+{
+	if (vars)
+		ft_free_vars(vars);
+	if (tmp)
+		ft_free((void **)tmp);
 }
 
 void	ft_free_pipes(int **pipes, int n)

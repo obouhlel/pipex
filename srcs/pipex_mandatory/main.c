@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:08:36 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 11:43:54 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:59:56 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int ac, char **av, char **env)
 	vars = ft_init_vars(ac, av, env);
 	if (!vars)
 		return (EXIT_FAILURE);
+	if (vars && ft_check_cmds(vars->cmds))
+		return (ft_error(vars, ERROR_CMD, &ft_close_fd), EXIT_FAILURE);
 	if (vars && main_exec(vars))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

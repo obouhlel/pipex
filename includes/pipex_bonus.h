@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:25:55 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:05:11 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,18 @@ typedef struct s_vars
 void	ft_error_exec(t_vars *vars, char **args, char *tmp, char *msg);
 void	ft_error_exit(t_vars *vars, char *msg, void (*ft_close)(t_vars *));
 void	ft_error(t_vars *vars, char *msg, void (*ft_close)(t_vars *));
+int		ft_check_pid(pid_t *pid, int nb_pid);
 
 //file free.c
 void	ft_free(void **ptr);
+void	ft_free_vars_and_tmp(t_vars *vars, char *tmp);
 void	ft_free_pipes(int **pipes, int nb_pipes);
 void	ft_free_strs(char **strs);
 void	ft_free_vars(t_vars *vars);
 
 //file utils.c
 int		ft_check_file(char *infile, char *outfile);
-int		ft_check_pid(pid_t *pid, int nb_pid);
+int		ft_check_cmds(char **cmds);
 char	*ft_access(char *cmd, char **path);
 char	**ft_get_path(char **env);
 void	ft_close_pipes(t_vars *vars);

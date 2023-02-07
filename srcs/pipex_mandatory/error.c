@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 15:04:40 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:49:16 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_error_exec(t_vars *vars, char **args, char *tmp, char *msg)
 	if (args)
 		ft_free_strs(args);
 	if (tmp)
-		free(tmp);
+		ft_free((void **)&tmp);
 	if (msg)
 		ft_putendl_fd(msg, STDERR);
 	exit(EXIT_FAILURE);
