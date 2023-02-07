@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 09:23:24 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 15:03:53 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:32:20 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ int	ft_exec_end_here_doc(t_vars *vars, char *arg, int fd_read, char *file)
 					FAIL);
 		file_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (file_out == FAIL)
-			return (ft_error(vars, strerror(errno), NULL), FAIL);
+			return (ft_error_exit(vars, strerror(errno), NULL), FAIL);
 		if (dup2(file_out, STDOUT) == FAIL)
 			return (close(file_out), \
-					ft_error(vars, strerror(errno), &ft_close_pipes), FAIL);
+					ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
+					FAIL);
 		close(file_out);
 		ft_close_pipes(vars);
 		ft_execution(vars, arg);

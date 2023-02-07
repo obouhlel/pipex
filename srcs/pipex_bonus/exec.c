@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/06 14:03:58 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:33:38 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_exec_first(t_vars *vars, char *arg, int fd_write, char *name_file)
 			return (ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
 					FAIL);
 		if (dup2(fd_file, STDIN) == FAIL)
-			return (ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
+			return (close(fd_file), \
+					ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
 					FAIL);
 		close (fd_file);
 		if (dup2(fd_write, STDOUT) == FAIL)
@@ -97,10 +98,11 @@ int	ft_exec_last(t_vars *vars, char *arg, int fd_read, char *name_file)
 					FAIL);
 		file_out = open(name_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file_out == FAIL)
-			return (ft_error(vars, strerror(errno), NULL), FAIL);
+			return (ft_error_exit(vars, strerror(errno), NULL), FAIL);
 		if (dup2(file_out, STDOUT) == FAIL)
 			return (close(file_out), \
-					ft_error(vars, strerror(errno), &ft_close_pipes), FAIL);
+					ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
+					FAIL);
 		close(file_out);
 		ft_close_pipes(vars);
 		ft_execution(vars, arg);

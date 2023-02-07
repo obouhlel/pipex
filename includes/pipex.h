@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 11:41:55 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 18:26:27 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ Example : ./pipex here_doc LIMITER \"cat\" \"grep o\" outfile."
 # define ERROR_MALLOC "\033[0;31mMalloc fail\033[0m"
 # define ERROR_PATH "\033[0;31mBad path\033[0m, please check your PATH variable."
 # define ERROR_CMD "Command not found"
-# define ERROR_SAME_FILE "\033[0;31mSame file\033[0m, \
-please check your arguments."
 # define ERROR_NO_FILE "\033[0;31mNo file\033[0m, please check your arguments."
 
 //std fd
