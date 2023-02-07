@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 11:52:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:59:50 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:14:27 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	ft_free_vars(t_vars *vars);
 
 //utils.c
 int		ft_check_file(char *infile, char *outfile);
-int		ft_check_cmds(char **cmds);
 char	**ft_get_path(char **env);
 void	ft_close_fd(int fd[2]);
 

@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:26 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:53:16 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:14:13 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@ int	ft_check_file(char *infile, char *outfile)
 		return (ft_error(NULL, ERROR_NO_FILE, NULL), FAIL);
 	if (ft_strcmp(outfile, "") == 0)
 		return (ft_error(NULL, ERROR_NO_FILE, NULL), FAIL);
-	return (SUCCESS);
-}
-
-int	ft_check_cmds(char **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
-	{
-		if (ft_strcmp(cmds[i], "") == 0)
-			return (FAIL);
-		i++;
-	}
 	return (SUCCESS);
 }
 

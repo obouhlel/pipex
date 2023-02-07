@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:12:04 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:46:26 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:15:37 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	ft_exec_first(t_vars *vars, char *arg, int fd[2], char *name_file)
 		if (dup2(fd[W], STDOUT) == FAIL)
 			return (ft_error(vars, strerror(errno), &ft_close_fd), FAIL);
 		close(fd[W]);
+		if (ft_strcmp(arg, "") == 0)
+			return (ft_error_exit(vars, ERROR_CMD, errno, NULL), FAIL);
 		ft_execution(vars, arg);
 	}
 	return (id);
@@ -73,6 +75,8 @@ int	ft_exec_last(t_vars *vars, char *arg, int fd[2], char *name_file)
 		if (dup2(file_out, STDOUT) == FAIL)
 			return (close(file_out), ft_error(vars, strerror(errno), 0), FAIL);
 		close(file_out);
+		if (ft_strcmp(arg, "") == 0)
+			return (ft_error_exit(vars, ERROR_CMD, errno, NULL), FAIL);
 		ft_execution(vars, arg);
 	}
 	return (id);

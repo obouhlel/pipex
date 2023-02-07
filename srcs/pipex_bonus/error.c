@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:18:35 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 19:02:03 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:11:11 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,4 @@ void	ft_error_exit(t_vars *vars, char *msg, void (*ft_close)(t_vars *))
 	if (vars)
 		ft_free_vars(vars);
 	exit(errno);
-}
-
-int	ft_check_pid(pid_t *pid, int nb_pid)
-{
-	int	i;
-
-	i = 0;
-	while (i < nb_pid)
-	{
-		if (pid[i] == FAIL)
-			return (FAIL);
-		i++;
-	}
-	return (SUCCESS);
 }

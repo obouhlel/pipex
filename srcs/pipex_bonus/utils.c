@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:19:26 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 19:04:22 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:10:57 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	ft_check_file(char *infile, char *outfile)
 	return (SUCCESS);
 }
 
-int	ft_check_cmds(char **cmds)
+int	ft_check_pid(pid_t *pid, int nb_pid)
 {
 	int	i;
 
 	i = 0;
-	while (cmds[i])
+	while (i < nb_pid)
 	{
-		if (ft_strcmp(cmds[i], "") == 0)
+		if (pid[i] == FAIL)
 			return (FAIL);
 		i++;
 	}

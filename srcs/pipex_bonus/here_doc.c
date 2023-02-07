@@ -6,7 +6,7 @@
 /*   By: obouhlel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 09:23:24 by obouhlel          #+#    #+#             */
-/*   Updated: 2023/02/07 18:32:20 by obouhlel         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:13:53 by obouhlel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	ft_exec_here_doc(t_vars *vars, char *arg, int fd_read, int fd_write)
 			return (ft_error_exit(vars, strerror(errno), &ft_close_pipes), \
 					FAIL);
 		ft_close_pipes(vars);
+		if (ft_strcmp(arg, "") == 0)
+			return (ft_error_exit(vars, ERROR_CMD, NULL), FAIL);
 		ft_execution(vars, arg);
 	}
 	return (id);
@@ -80,6 +82,8 @@ int	ft_exec_end_here_doc(t_vars *vars, char *arg, int fd_read, char *file)
 					FAIL);
 		close(file_out);
 		ft_close_pipes(vars);
+		if (ft_strcmp(arg, "") == 0)
+			return (ft_error_exit(vars, ERROR_CMD, NULL), FAIL);
 		ft_execution(vars, arg);
 	}
 	return (id);
